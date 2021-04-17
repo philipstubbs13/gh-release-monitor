@@ -1,40 +1,24 @@
 import PropTypes from 'prop-types';
 import Head from 'next/head';
-import { makeStyles, ThemeProvider, Container } from '@material-ui/core';
+import { ThemeProvider, Container } from '@material-ui/core';
 import { Drawer } from '@components/drawer/Drawer';
-import { menuItems, drawerWidth } from '../../constants';
+import { menuItems } from '../../constants';
 import { Navbar } from '@components/navbar/Navbar';
 import { theme } from '../../theme/theme';
-
-const useStyles = makeStyles((theme) => {
-  return {
-    root: {
-      marginTop: 0,
-    },
-    app: {
-      display: 'flex',
-      paddingTop: '1.5em',
-    },
-    content: {
-      width: '100%',
-    },
-    toolbar: theme.mixins.toolbar,
-  };
-});
-
+import { useLayoutStyles } from './Layout.styles';
 export interface IProps {
   children: any;
-  subTitle: String;
-  title: String;
+  subTitle: string;
+  title: string;
 }
 
 export const Layout = (props: IProps) => {
-  const classes = useStyles();
+  const classes = useLayoutStyles();
 
   return (
     <div>
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name={'viewport'} content={'width=device-width'} initial-scale={'1'} />
         <title>
           {props.subTitle} - {props.title}
         </title>
@@ -42,10 +26,10 @@ export const Layout = (props: IProps) => {
       <ThemeProvider theme={theme}>
         <div className={classes.app}>
           <Navbar menuItems={menuItems} subTitle={props.subTitle} />
-          <Drawer menuItems={menuItems} drawerWidth={drawerWidth} />
+          <Drawer menuItems={menuItems} />
           <div className={classes.content}>
-            <div className={classes.toolbar}></div>
-            <Container maxWidth="md">{props.children}</Container>
+            <div className={classes.toolbar} />
+            <Container maxWidth={'md'}>{props.children}</Container>
           </div>
         </div>
       </ThemeProvider>

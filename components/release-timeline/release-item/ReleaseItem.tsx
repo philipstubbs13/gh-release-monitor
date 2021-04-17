@@ -1,5 +1,3 @@
-import React from 'react';
-import { makeStyles, Theme } from '@material-ui/core/styles';
 import {
   TimelineItem,
   TimelineSeparator,
@@ -10,40 +8,25 @@ import {
 } from '@material-ui/lab';
 import { Paper, Typography, Avatar, Button } from '@material-ui/core';
 import { formatDate } from '../../../utils/date.utils';
-
-const useStyles = makeStyles((theme: Theme) => ({
-  paper: {
-    padding: '6px 16px',
-    border: `2px solid ${theme.palette.secondary.dark}`,
-  },
-  avatar: {
-    width: theme.spacing(4),
-    height: theme.spacing(4),
-  },
-  bold: {
-    fontWeight: 'bold',
-  },
-  muted: {
-    opacity: 0.5,
-  },
-}));
+import { useReleaseItemStyles } from './ReleaseItem.styles';
+import PropTypes from 'prop-types';
 
 export interface IProps {
-  releaseItem: any;
   // eslint-disable-next-line no-unused-vars
-  getReleaseById: (id: String) => void;
+  getReleaseById: (id: string) => void;
+  releaseItem: any;
 }
 
 export const ReleaseItem = (props: IProps) => {
-  const classes = useStyles();
+  const classes = useReleaseItemStyles();
 
   return (
     <TimelineItem>
       <TimelineOppositeContent>
-        <Typography variant="body2">{formatDate(props.releaseItem.published_at)}</Typography>
+        <Typography variant={'body2'}>{formatDate(props.releaseItem.published_at)}</Typography>
       </TimelineOppositeContent>
       <TimelineSeparator>
-        <a href={props.releaseItem.author.html_url} target="_blank" rel="noopener noreferrer">
+        <a href={props.releaseItem.author.html_url} target={'_blank'} rel={'noopener noreferrer'}>
           <TimelineDot>
             <Avatar
               alt={props.releaseItem.author.login}
@@ -57,7 +40,7 @@ export const ReleaseItem = (props: IProps) => {
       <TimelineContent>
         <Button onClick={() => props.getReleaseById(props.releaseItem.id)}>
           <Paper elevation={3} className={classes.paper}>
-            <Typography variant="body1" className={classes.bold}>
+            <Typography variant={'body1'} className={classes.bold}>
               {props.releaseItem.name}
             </Typography>
           </Paper>
@@ -65,4 +48,9 @@ export const ReleaseItem = (props: IProps) => {
       </TimelineContent>
     </TimelineItem>
   );
+};
+
+ReleaseItem.PropTypes = {
+  getReleaseById: PropTypes.func.isRequired,
+  releaseItem: PropTypes.object.isRequired,
 };

@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import { Timeline } from '@material-ui/lab';
@@ -18,7 +17,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 }));
 
 export interface IProps {
-  getReleaseById: (id: String) => void;
+  // eslint-disable-next-line no-unused-vars
+  getReleaseById: (id: string) => void;
   releaseItems: any[];
 }
 

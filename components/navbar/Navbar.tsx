@@ -1,43 +1,24 @@
-import { makeStyles, Typography, AppBar, Toolbar, IconButton } from '@material-ui/core';
-import { APP_TITLE, drawerWidth } from '../../constants';
+import { Typography, AppBar, Toolbar, IconButton } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { MenuItem } from '../drawer/Drawer.types';
 import Link from 'next/link';
-
-const useStyles = makeStyles((theme) => {
-  return {
-    appbar: {
-      backgroundColor: theme.palette.primary.dark,
-      width: `calc(100% - ${drawerWidth}px)`,
-    },
-    apptitle: {
-      flexGrow: 1,
-    },
-    navItem: {
-      marginLeft: theme.spacing(3),
-    },
-  };
-});
+import { useNavbarStyles } from './Navbar.styles';
 
 export interface IProps {
   menuItems: MenuItem[];
-  subTitle: String;
+  subTitle: string;
 }
 
 export const Navbar = (props: IProps) => {
-  const classes = useStyles();
+  const classes = useNavbarStyles();
 
   return (
     <AppBar className={classes.appbar} elevation={0}>
       <Toolbar>
-        <Typography className={classes.apptitle}>
-          {APP_TITLE} - {props.subTitle}
-        </Typography>
+        <Typography className={classes.apptitle}>{props.subTitle}</Typography>
         {props.menuItems.map((item) => (
-          <Link href={item.path} key={item.text as any}>
-            <IconButton className={classes.navItem} key={item.text as any} c>
-              {item.icon}
-            </IconButton>
+          <Link href={item.path} key={item.text}>
+            <IconButton className={classes.navItem}>{item.icon}</IconButton>
           </Link>
         ))}
       </Toolbar>
