@@ -7,6 +7,11 @@ export default (state, action) => {
         ...state,
         repos: action.payload,
       };
+    case 'GET_RELEASES':
+      return {
+        ...state,
+        releases: action.payload,
+      };
     case 'MESSAGE_ERROR':
       return {
         ...state,

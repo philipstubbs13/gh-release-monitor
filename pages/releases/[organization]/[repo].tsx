@@ -1,0 +1,112 @@
+import { Layout } from '@components/layout/Layout';
+import PropTypes from 'prop-types';
+import { PageTitles } from '../../../constants';
+import { IPageProps } from '../../../types';
+import { Typography, makeStyles, Grid } from '@material-ui/core';
+import { useAppContext } from '../../../context/state';
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { ReleaseTimeline } from '@components/release-timeline/ReleaseTimeline';
+import { ReleaseDetailsItem } from '@components/release-details-item/ReleaseDetailsItem';
+
+export const getStaticPaths = async () => {
+  return {
+    paths: [],
+    fallback: true,
+  };
+};
+
+const useStyles = makeStyles((theme) => {
+  return {
+    releaseDetails: {
+      marginTop: 34,
+      marginBottom: 20,
+      fontWeight: theme.typography.fontWeightBold,
+    },
+  };
+});
+
+const Repo = (props: IPageProps) => {
+  let { state, getReleases } = useAppContext();
+  const classes = useStyles();
+  const router = useRouter();
+  const { organization, repo } = router.query;
+  const [selectedRelease, setSelectedRelease] = useState(null);
+
+  useEffect(async () => {
+    const { organization, repo } = router.query;
+
+    await getReleases(organization, repo);
+  }, []);
+
+  console.log(state.releases);
+
+  const getReleaseById = (id: String) => {
+    const selectedRelease = state.releases.find((releaseItem) => releaseItem.id === id);
+
+    console.log(selectedRelease);
+
+    setSelectedRelease(selectedRelease);
+  };
+
+  return (
+    <Layout description={props.description} title={props.title} subTitle={props.subTitle}>
+      <Typography variant={'h6'}>
+        {state.releases.length} releases found for {organization}/{repo}
+      </Typography>
+      <Grid container={true} spacing={3}>
+        <Grid item={true} xs={6}>
+          <ReleaseTimeline releaseItems={state.releases} getReleaseById={getReleaseById} />
+        </Grid>
+        <Grid item={true} xs={6}>
+          {selectedRelease && (
+            <React.Fragment>
+              <Typography variant="subtitle1" className={classes.releaseDetails}>
+                {selectedRelease.name}
+              </Typography>
+              <a
+                href={selectedRelease.author.html_url}
+                target={'_blank'}
+                rel={'noopenner noreferrer'}>
+                <ReleaseDetailsItem
+                  label="Author"
+                  info={selectedRelease.author.login}
+                  isLink={true}
+                />
+              </a>
+              <ReleaseDetailsItem label="Description" info={selectedRelease.body} />
+              <ReleaseDetailsItem label="Created At" info={selectedRelease.created_at} />
+              <ReleaseDetailsItem label="Published At" info={selectedRelease.published_at} />
+              <ReleaseDetailsItem label="Tag" info={selectedRelease.tag_name} />
+              <ReleaseDetailsItem
+                label="Is Prerelease?"
+                info={selectedRelease.prerelease ? 'Yes' : 'No'}
+              />
+              <ReleaseDetailsItem label="Is Draft?" info={selectedRelease.draft ? 'Yes' : 'No'} />
+            </React.Fragment>
+          )}
+        </Grid>
+      </Grid>
+    </Layout>
+  );
+};
+
+export default Repo;
+
+export async function getStaticProps() {
+  const configData = await import(`../../../siteconfig.json`);
+
+  return {
+    props: {
+      title: configData.default.title,
+      description: configData.default.description,
+      subTitle: PageTitles.Home,
+    },
+  };
+}
+
+Repo.propTypes = {
+  description: PropTypes.string.isRequired,
+  subTitle: PropTypes.string.isRequred,
+  title: PropTypes.string.isRequired,
+};

@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 const Home = (props: IPageProps) => {
-  let { state, dispatch, getReposByOrg } = useAppContext();
+  let { state, getReposByOrg } = useAppContext();
   const classes = useStyles();
 
   useEffect(() => {

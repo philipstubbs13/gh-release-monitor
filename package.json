@@ -12,6 +12,7 @@
     "ts": "tsc"
   },
   "dependencies": {
+    "@material-ui/lab": "^4.0.0-alpha.57",
     "babel-preset-next": "^1.4.0",
     "clsx": "^1.1.1",
     "next": "10.1.3",
