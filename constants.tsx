@@ -1,4 +1,4 @@
-import { FavoriteOutlined, HelpOutlined, InfoOutlined } from '@material-ui/icons';
+import { FavoriteOutlined, HelpOutlined, InfoOutlined, HomeOutlined } from '@material-ui/icons';
 
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
@@ -9,6 +9,7 @@ export enum PageTitles {
   Favorites = 'Favorites',
   Help = 'Help',
   Home = 'Home',
+  FourOFour = '404',
 }
 
 export enum PageRoutes {
@@ -22,18 +23,23 @@ export const drawerWidth = 240;
 
 export const menuItems = [
   {
+    text: 'Home',
+    icon: <HomeOutlined color="primary" />,
+    path: '/',
+  },
+  {
     text: 'Favorites',
-    icon: <FavoriteOutlined color="secondary" />,
+    icon: <FavoriteOutlined color="primary" />,
     path: '/favorites',
   },
   {
     text: 'About',
-    icon: <InfoOutlined color="secondary" />,
+    icon: <InfoOutlined color="primary" />,
     path: '/about',
   },
   {
     text: 'Help',
-    icon: <HelpOutlined color="secondary" />,
+    icon: <HelpOutlined color="primary" />,
     path: '/help',
   },
 ];

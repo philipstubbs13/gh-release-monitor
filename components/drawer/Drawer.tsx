@@ -10,6 +10,7 @@ import {
 } from '@material-ui/core';
 import { MenuItem } from './Drawer.types';
 import { drawerWidth, APP_TITLE } from '../../constants';
+import Link from 'next/link';
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -17,9 +18,12 @@ const useStyles = makeStyles((theme) => {
       width: drawerWidth,
     },
     drawerPaper: {
+      backgroundColor: theme.palette.primary.light,
+      borderRight: `2px ${theme.palette.primary.dark} solid`,
+      color: theme.palette.primary.dark,
       width: drawerWidth,
     },
-    title: {
+    apptitle: {
       padding: theme.spacing(2),
     },
   };
@@ -39,17 +43,19 @@ export const Drawer = (props: IProps) => {
       anchor="left"
       classes={{ paper: classes.drawerPaper }}>
       <div>
-        <Typography variant="h5" className={classes.title}>
+        <Typography variant="h5" className={classes.apptitle}>
           {APP_TITLE}
         </Typography>
       </div>
 
       <List>
         {props.menuItems.map((item) => (
-          <ListItem button key={item.text as any}>
-            <ListItemIcon>{item.icon}</ListItemIcon>
-            <ListItemText primary={item.text} />
-          </ListItem>
+          <Link href={item.path} key={item.text as any}>
+            <ListItem button>
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.text} />
+            </ListItem>
+          </Link>
         ))}
       </List>
     </MUIDrawer>

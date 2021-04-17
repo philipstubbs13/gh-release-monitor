@@ -1,17 +1,17 @@
 import { Layout } from '@components/layout/Layout';
-import PropTypes from 'prop-types';
 import { PageTitles } from '../constants';
+import PropTypes from 'prop-types';
 import { IPageProps } from '../types';
 
-const Home = (props: IPageProps) => {
+const Help = (props: IPageProps) => {
   return (
-    <Layout description={props.description} title={props.title} subTitle={props.subTitle}>
-      Hello
+    <Layout description={props.description} subTitle={props.subTitle} title={props.title}>
+      Help
     </Layout>
   );
 };
 
-export default Home;
+export default Help;
 
 export async function getStaticProps() {
   const configData = await import(`../siteconfig.json`);
@@ -20,12 +20,12 @@ export async function getStaticProps() {
     props: {
       title: configData.default.title,
       description: configData.default.description,
-      subTitle: PageTitles.Home,
+      subTitle: PageTitles.Help,
     },
   };
 }
 
-Home.propTypes = {
+Help.propTypes = {
   description: PropTypes.string.isRequired,
   subTitle: PropTypes.string.isRequred,
   title: PropTypes.string.isRequired,

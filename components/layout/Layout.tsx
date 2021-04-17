@@ -1,29 +1,43 @@
 import PropTypes from 'prop-types';
 import Head from 'next/head';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, ThemeProvider } from '@material-ui/core';
 import { Drawer } from '@components/drawer/Drawer';
 import { menuItems, drawerWidth } from '../../constants';
 import { Navbar } from '@components/navbar/Navbar';
+import { Footer } from '@components/footer/Footer';
+import { theme } from '../../theme/theme';
+import { GlobalProvider } from '../../context/GlobalState';
 
 const useStyles = makeStyles((theme) => {
   return {
-    page: {
-      background: '#f9f9f9',
-      width: '100%',
-      padding: theme.spacing(3),
-    },
     root: {
+      marginTop: 0,
+    },
+    app: {
       display: 'flex',
+      flexDirection: 'column',
+      minHeight: '100vh',
     },
-    active: {
-      background: '#f4f4f4',
+    content: {
+      flex: '1 0 auto',
+      padding: '1.5em 0 2em 0',
+      width: '100%',
+      '&:after': {
+        content: '00a0',
+        display: 'block',
+        marginTop: '1.5em',
+        height: 0,
+        visibility: 'hidden',
+      },
     },
+    toolbar: theme.mixins.toolbar,
   };
 });
 
 export interface IProps {
   children: any;
-  pageTitle: String;
+  subTitle: String;
+  title: String;
 }
 
 export const Layout = (props: IProps) => {
@@ -33,21 +47,29 @@ export const Layout = (props: IProps) => {
     <div>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>{props.pageTitle}</title>
+        <title>
+          {props.subTitle} - {props.title}
+        </title>
       </Head>
-      <div className={classes.root}>
-        <Navbar />
-        <Drawer menuItems={menuItems} drawerWidth={drawerWidth} />
-        <div className={classes.page}>
-          <div className={classes.toolbar}></div>
-          {props.children}
-        </div>
-      </div>
+      <GlobalProvider>
+        <ThemeProvider theme={theme}>
+          <div className={classes.app}>
+            <Navbar menuItems={menuItems} subTitle={props.subTitle} />
+            <Drawer menuItems={menuItems} drawerWidth={drawerWidth} />
+            <div className={classes.content}>
+              <div className={classes.toolbar}></div>
+              {props.children}
+            </div>
+            <Footer />
+          </div>
+        </ThemeProvider>
+      </GlobalProvider>
     </div>
   );
 };
 
 Layout.propTypes = {
   children: PropTypes.node,
-  pageTitle: PropTypes.string.isRequired,
+  subTitle: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
 };

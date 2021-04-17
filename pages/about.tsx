@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { PageTitles } from '../constants';
 import { IPageProps } from '../types';
 
-const Home = (props: IPageProps) => {
+const About = (props: IPageProps) => {
   return (
-    <Layout description={props.description} title={props.title} subTitle={props.subTitle}>
-      Hello
+    <Layout title={props.title} subTitle={props.subTitle} description={props.description}>
+      About
     </Layout>
   );
 };
 
-export default Home;
+export default About;
 
 export async function getStaticProps() {
   const configData = await import(`../siteconfig.json`);
@@ -20,12 +20,12 @@ export async function getStaticProps() {
     props: {
       title: configData.default.title,
       description: configData.default.description,
-      subTitle: PageTitles.Home,
+      subTitle: PageTitles.About,
     },
   };
 }
 
-Home.propTypes = {
+About.propTypes = {
   description: PropTypes.string.isRequired,
   subTitle: PropTypes.string.isRequred,
   title: PropTypes.string.isRequired,
