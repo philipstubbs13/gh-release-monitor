@@ -1,20 +1,8 @@
-import { makeStyles, Theme } from '@material-ui/core/styles';
 import { Typography } from '@material-ui/core';
 import { Timeline } from '@material-ui/lab';
 import { ReleaseItem } from './release-item/ReleaseItem';
-
-const useStyles = makeStyles((theme: Theme) => ({
-  secondaryTail: {
-    backgroundColor: theme.palette.secondary.dark,
-  },
-  bold: {
-    fontWeight: 'bold',
-  },
-  instructions: {
-    marginTop: 20,
-    marginBottom: 20,
-  },
-}));
+import { useReleaseTimelineStyles } from './ReleaseTimeline.styles';
+import PropTypes from 'prop-types';
 
 export interface IProps {
   // eslint-disable-next-line no-unused-vars
@@ -23,23 +11,28 @@ export interface IProps {
 }
 
 export const ReleaseTimeline = (props: IProps) => {
-  const classes = useStyles();
+  const classes = useReleaseTimelineStyles();
 
   return (
-    <Timeline align="alternate">
-      <Typography variant="subtitle1" className={classes.instructions}>
-        Click a release box in the timeline below for more information
+    <Timeline align={'alternate'}>
+      <Typography variant={'subtitle1'} className={classes.instructions}>
+        Click a release box in timeline below for more info
       </Typography>
 
       {props.releaseItems.map((releaseItem: any) => {
         return (
           <ReleaseItem
+            getReleaseById={props.getReleaseById}
             key={releaseItem.id}
             releaseItem={releaseItem}
-            getReleaseById={props.getReleaseById}
           />
         );
       })}
     </Timeline>
   );
+};
+
+ReleaseTimeline.propTypes = {
+  getReleaseById: PropTypes.func.isRequired,
+  releaseItems: PropTypes.arrayOf(PropTypes.object).isRequired,
 };

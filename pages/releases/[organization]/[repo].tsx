@@ -40,15 +40,13 @@ const Repo = (props: IPageProps) => {
     await getReleases(organization, repo);
   }, []);
 
-  console.log(state.releases);
-
   const getReleaseById = (id: String) => {
     const selectedRelease = state.releases.find((releaseItem) => releaseItem.id === id);
 
-    console.log(selectedRelease);
-
     setSelectedRelease(selectedRelease);
   };
+  const isDraft = selectedRelease?.draft ? 'Yes' : 'No';
+  const isPrerelease = selectedRelease?.prerelease ? 'Yes' : 'No';
 
   return (
     <Layout description={props.description} title={props.title} subTitle={props.subTitle}>
@@ -62,34 +60,31 @@ const Repo = (props: IPageProps) => {
         <Grid item={true} xs={6}>
           {selectedRelease && (
             <React.Fragment>
-              <Typography variant="subtitle1" className={classes.releaseDetails}>
+              <Typography variant={'subtitle1'} className={classes.releaseDetails}>
                 {selectedRelease.name}
               </Typography>
               <a
                 href={selectedRelease.author.html_url}
                 target={'_blank'}
-                rel={'noopenner noreferrer'}>
+                rel={'noopener noreferrer'}>
                 <ReleaseDetailsItem
                   label="Author"
                   info={selectedRelease.author.login}
                   isLink={true}
                 />
               </a>
-              <ReleaseDetailsItem label="Description" info={selectedRelease.body} />
+              <ReleaseDetailsItem label={'Description'} info={selectedRelease.body} />
               <ReleaseDetailsItem
-                label="Created At"
+                label={'Created At'}
                 info={formatDate(selectedRelease.created_at)}
               />
               <ReleaseDetailsItem
-                label="Published At"
+                label={'Published At'}
                 info={formatDate(selectedRelease.published_at)}
               />
-              <ReleaseDetailsItem label="Tag" info={selectedRelease.tag_name} />
-              <ReleaseDetailsItem
-                label="Is Prerelease?"
-                info={selectedRelease.prerelease ? 'Yes' : 'No'}
-              />
-              <ReleaseDetailsItem label="Is Draft?" info={selectedRelease.draft ? 'Yes' : 'No'} />
+              <ReleaseDetailsItem label={'Tag'} info={selectedRelease.tag_name} />
+              <ReleaseDetailsItem label="Is Prerelease?" info={isPrerelease} />
+              <ReleaseDetailsItem label="Is Draft?" info={isDraft} />
             </React.Fragment>
           )}
         </Grid>
@@ -105,9 +100,9 @@ export async function getStaticProps() {
 
   return {
     props: {
-      title: configData.default.title,
       description: configData.default.description,
       subTitle: PageTitles.Home,
+      title: configData.default.title,
     },
   };
 }

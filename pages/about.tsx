@@ -5,7 +5,7 @@ import { IPageProps } from '../types';
 
 const About = (props: IPageProps) => {
   return (
-    <Layout title={props.title} subTitle={props.subTitle} description={props.description}>
+    <Layout description={props.description} subTitle={props.subTitle} title={props.title}>
       About
     </Layout>
   );
@@ -18,9 +18,9 @@ export async function getStaticProps() {
 
   return {
     props: {
-      title: configData.default.title,
       description: configData.default.description,
       subTitle: PageTitles.About,
+      title: configData.default.title,
     },
   };
 }

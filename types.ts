@@ -1,5 +1,5 @@
 export interface IPageProps {
-  description: String;
-  subTitle: String;
-  title: String;
+  description: string;
+  subTitle: string;
+  title: string;
 }

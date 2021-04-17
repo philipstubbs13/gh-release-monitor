@@ -5,7 +5,7 @@ import { IPageProps } from '../types';
 
 const Favorites = (props: IPageProps) => {
   return (
-    <Layout title={props.title} subTitle={props.subTitle} description={props.description}>
+    <Layout description={props.description} subTitle={props.subTitle} title={props.title}>
       Favorites
     </Layout>
   );
@@ -18,9 +18,9 @@ export async function getStaticProps() {
 
   return {
     props: {
-      title: configData.default.title,
       description: configData.default.description,
       subTitle: PageTitles.Favorites,
+      title: configData.default.title,
     },
   };
 }
