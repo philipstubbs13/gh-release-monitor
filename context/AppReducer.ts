@@ -1,9 +1,11 @@
 export default (state, action) => {
   switch (action.type) {
-    case 'ADD_MESSAGE':
+    case 'TOGGLE_DARK_MODE':
+      return { ...state, darkMode: !state.darkMode };
+    case 'GET_REPOS':
       return {
         ...state,
-        messages: [],
+        repos: action.payload,
       };
     case 'MESSAGE_ERROR':
       return {

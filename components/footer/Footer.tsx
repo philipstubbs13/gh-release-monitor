@@ -1,13 +1,14 @@
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { APP_TITLE, APP_DESCRIPTION } from '../../constants';
+import { APP_TITLE, APP_DESCRIPTION, drawerWidth } from '../../constants';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      left: 0,
+      position: 'absolute',
+      left: drawerWidth,
       bottom: 0,
-      width: '100%',
+      width: `calc(100% - ${drawerWidth}px)`,
       textAlign: 'center',
       borderTop: `4px solid ${theme.palette.primary.main}`,
       backgroundColor: theme.palette.primary.dark,
@@ -15,7 +16,6 @@ const useStyles = makeStyles((theme: Theme) =>
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      justifyContent: 'center',
     },
     copyrightText: {
       marginTop: 20,
