@@ -1,7 +1,6 @@
-import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { APP_TITLE } from '../../constants';
+import { APP_TITLE, APP_DESCRIPTION } from '../../constants';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -14,11 +13,14 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: theme.palette.primary.dark,
       color: theme.palette.text.secondary,
       display: 'flex',
+      flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
     },
     copyrightText: {
       marginTop: 20,
+    },
+    description: {
       marginBottom: 20,
     },
   })
@@ -26,11 +28,15 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const Footer = () => {
   const classes = useStyles();
+  const year = new Date().getFullYear();
 
   return (
     <div className={classes.root}>
-      <Typography variant="h6" className={classes.copyrightText}>
-        {APP_TITLE} &copy; 2021
+      <Typography variant={'h6'} className={classes.copyrightText}>
+        {APP_TITLE} &copy; {year}
+      </Typography>
+      <Typography component={'small'} className={classes.description}>
+        {APP_DESCRIPTION}
       </Typography>
     </div>
   );

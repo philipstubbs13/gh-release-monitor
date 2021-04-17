@@ -3,6 +3,7 @@ import { FavoriteOutlined, HelpOutlined, InfoOutlined, HomeOutlined } from '@mat
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 export const APP_TITLE = 'GitHub Release Monitor';
+export const APP_DESCRIPTION = 'Never miss a release for your favorite GitHub repos ever again!';
 
 export enum PageTitles {
   About = 'About',

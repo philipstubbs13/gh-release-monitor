@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { Layout } from '@components/layout/Layout';
-import { Box, makeStyles, Typography, Button } from '@material-ui/core';
+import { Box, makeStyles, Typography, Button, Container } from '@material-ui/core';
 import { PageRoutes, PageTitles } from '../constants';
 import { IPageProps } from '../types';
 
@@ -22,24 +22,22 @@ const FourOFour = (props: IPageProps) => {
 
   return (
     <Layout description={props.description} subTitle={props.subTitle} title={props.title}>
-      <Box
-        display={'flex'}
-        flexDirection={'column'}
-        alignItems={'center'}
-        justifyContent={'center'}>
-        <Typography variant={'h5'}>404 - Page Not Found</Typography>
-        <Typography className={classes.text}>
-          Oops! The page you are looking for was either deleted, moved, or does not exist.
-        </Typography>
-        <Typography className={classes.text}>
-          Double check that the url is correct or try heading back to the home page.
-        </Typography>
-        <Link href={PageRoutes.Home}>
-          <Button className={classes.button} variant={'outlined'}>
-            Go back home
-          </Button>
-        </Link>
-      </Box>
+      <Container maxWidth={'md'}>
+        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} marginTop={5}>
+          <Typography variant={'h5'}>404 - Page Not Found</Typography>
+          <Typography className={classes.text}>
+            Oops! The page you are looking for was either deleted, moved, or does not exist.
+          </Typography>
+          <Typography className={classes.text}>
+            Double check that the url is correct or try heading back to the home page.
+          </Typography>
+          <Link href={PageRoutes.Home}>
+            <Button className={classes.button} variant={'outlined'}>
+              Go back home
+            </Button>
+          </Link>
+        </Box>
+      </Container>
     </Layout>
   );
 };
