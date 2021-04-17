@@ -9,6 +9,7 @@ import {
   TimelineDot,
 } from '@material-ui/lab';
 import { Paper, Typography, Avatar, Button } from '@material-ui/core';
+import { formatDate } from '../../../utils/date.utils';
 
 const useStyles = makeStyles((theme: Theme) => ({
   paper: {
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 export interface IProps {
   releaseItem: any;
+  // eslint-disable-next-line no-unused-vars
   getReleaseById: (id: String) => void;
 }
 
@@ -38,7 +40,7 @@ export const ReleaseItem = (props: IProps) => {
   return (
     <TimelineItem>
       <TimelineOppositeContent>
-        <Typography variant="body2">{props.releaseItem.published_at}</Typography>
+        <Typography variant="body2">{formatDate(props.releaseItem.published_at)}</Typography>
       </TimelineOppositeContent>
       <TimelineSeparator>
         <a href={props.releaseItem.author.html_url} target="_blank" rel="noopener noreferrer">

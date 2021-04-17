@@ -5,6 +5,7 @@ import { FavoriteOutlined, HelpOutlined, InfoOutlined, HomeOutlined } from '@mat
 export const APP_TITLE = 'GitHub Release Monitor';
 export const APP_DESCRIPTION = 'Never miss a release for your favorite GitHub repos ever again!';
 export const GITHUB_API_BASE_URL = 'https://api.github.com';
+export const DATE_FORMAT = 'MMM dd, Y';
 
 export enum PageTitles {
   About = 'About',

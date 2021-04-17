@@ -8,6 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { ReleaseTimeline } from '@components/release-timeline/ReleaseTimeline';
 import { ReleaseDetailsItem } from '@components/release-details-item/ReleaseDetailsItem';
+import { formatDate } from '../../../utils/date.utils';
 
 export const getStaticPaths = async () => {
   return {
@@ -75,8 +76,14 @@ const Repo = (props: IPageProps) => {
                 />
               </a>
               <ReleaseDetailsItem label="Description" info={selectedRelease.body} />
-              <ReleaseDetailsItem label="Created At" info={selectedRelease.created_at} />
-              <ReleaseDetailsItem label="Published At" info={selectedRelease.published_at} />
+              <ReleaseDetailsItem
+                label="Created At"
+                info={formatDate(selectedRelease.created_at)}
+              />
+              <ReleaseDetailsItem
+                label="Published At"
+                info={formatDate(selectedRelease.published_at)}
+              />
               <ReleaseDetailsItem label="Tag" info={selectedRelease.tag_name} />
               <ReleaseDetailsItem
                 label="Is Prerelease?"
