@@ -5,14 +5,14 @@ import { GITHUB_API_BASE_URL } from '../constants';
 import { Actions, DatabaseStoreNames } from './constants';
 import { IAppState, IAppContext } from './types';
 import idb from 'idb';
-
-const uuidv1 = require('uuid/v1');
+import { v4 as uuidv4 } from 'uuid';
 
 // eslint-disable-next-line react/prop-types
 export function AppWrapper({ children }) {
   const initialState: IAppState = {
     getReposForOrganizationError: '',
     isLoadingReleases: true,
+    recentSearches: [],
     releases: [],
     releasesMarkedSeen: [],
     repos: [],
@@ -36,11 +36,28 @@ export function AppWrapper({ children }) {
 
     if (response.status === 200) {
       const repos = await response.json();
+      let recentSearches = state.recentSearches;
 
-      dispatch({
-        type: Actions.GetRepos,
-        payload: repos,
-      });
+      if (!recentSearches.includes(state.searchTerm.trim().toLowerCase())) {
+        recentSearches.push(state.searchTerm.trim().toLowerCase());
+      }
+
+      recentSearchesDB().then((db) =>
+        db
+          .transaction(DatabaseStoreNames.RecentSearches, 'readwrite')
+          .objectStore(DatabaseStoreNames.RecentSearches)
+          .put({
+            recentSearches,
+            id: uuidv4(),
+          })
+          .then(() => {
+            dispatch({
+              recentSearches,
+              type: Actions.GetRepos,
+              payload: repos,
+            });
+          })
+      );
     }
 
     if (response.status === 404) {
@@ -106,7 +123,7 @@ export function AppWrapper({ children }) {
               const tx = db.transaction(DatabaseStoreNames.SeenReleases, 'readwrite');
               tx.objectStore(DatabaseStoreNames.SeenReleases).put({
                 seenReleases: [],
-                id: uuidv1(),
+                id: uuidv4(),
               });
             })
             .catch((error) => console.log(error));
@@ -119,18 +136,80 @@ export function AppWrapper({ children }) {
       });
   };
 
+  const getRecentSearches = () => {
+    recentSearchesDB()
+      .then((db) =>
+        db
+          .transaction(DatabaseStoreNames.RecentSearches)
+          .objectStore(DatabaseStoreNames.RecentSearches)
+          .getAll()
+      )
+      .then((obj) => {
+        if (obj.length === 0) {
+          recentSearchesDB()
+            .then((db) => {
+              const tx = db.transaction(DatabaseStoreNames.RecentSearches, 'readwrite');
+              tx.objectStore(DatabaseStoreNames.RecentSearches).put({
+                recentSearches: [],
+                id: uuidv4(),
+              });
+            })
+            .catch((error) => console.log(error));
+        } else {
+          dispatch({
+            type: Actions.GetRecentSearches,
+            payload: obj[0].recentSearches,
+          });
+        }
+      });
+  };
+
+  const clearSearchHistory = () => {
+    recentSearchesDB().then((db) =>
+      db
+        .transaction(DatabaseStoreNames.RecentSearches, 'readwrite')
+        .objectStore(DatabaseStoreNames.RecentSearches)
+        .put({
+          recentSearches: [],
+          id: uuidv4(),
+        })
+        .then(() => {
+          dispatch({
+            type: Actions.GetRecentSearches,
+            payload: [],
+          });
+        })
+    );
+  };
+
   const seenReleasesDB = () =>
     idb.open(DatabaseStoreNames.SeenReleases, 1, (upgradeDb) => {
-      // eslint-disable-next-line default-case
       switch (upgradeDb.oldVersion) {
         case 0:
           upgradeDb.createObjectStore(DatabaseStoreNames.SeenReleases, { keyPath: 'id' });
       }
     });
 
+  const recentSearchesDB = () =>
+    idb.open(DatabaseStoreNames.RecentSearches, 1, (upgradeDb) => {
+      switch (upgradeDb.oldVersion) {
+        case 0:
+          upgradeDb.createObjectStore(DatabaseStoreNames.RecentSearches, { keyPath: 'id' });
+      }
+    });
+
   return (
     <AppContext.Provider
-      value={{ state, getReposByOrg, getReleases, markSeen, setSearchTerm, getSeenReleases }}>
+      value={{
+        state,
+        getReposByOrg,
+        getReleases,
+        markSeen,
+        setSearchTerm,
+        getSeenReleases,
+        getRecentSearches,
+        clearSearchHistory,
+      }}>
       {children}
     </AppContext.Provider>
   );

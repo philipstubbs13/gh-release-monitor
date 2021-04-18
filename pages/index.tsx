@@ -17,17 +17,26 @@ const useStyles = makeStyles((theme: Theme) => {
 });
 
 const Home = (props: IPageProps) => {
-  let { state, getReposByOrg, setSearchTerm } = useAppContext();
+  let {
+    state,
+    getReposByOrg,
+    setSearchTerm,
+    getRecentSearches,
+    clearSearchHistory,
+  } = useAppContext();
   const classes = useStyles();
 
-  useEffect(() => {
-    getReposByOrg();
+  useEffect(async () => {
+    await getRecentSearches();
+    await getReposByOrg();
   }, []);
 
   return (
     <Layout description={props.description} subTitle={props.subTitle} title={props.title}>
       <SearchOrganizationForm
+        clearSearchHistory={clearSearchHistory}
         getReposByOrg={getReposByOrg}
+        recentSearches={state.recentSearches}
         searchError={state.searchError}
         searchTerm={state.searchTerm}
         setSearchTerm={setSearchTerm}

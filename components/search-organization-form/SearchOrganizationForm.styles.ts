@@ -26,5 +26,8 @@ export const useSearchOrganizationFormStyles = makeStyles((theme: Theme) => {
       fontSize: 12,
       color: theme.palette.error.main,
     },
+    clearSearchHistoryBtn: {
+      marginLeft: 20,
+    },
   };
 });

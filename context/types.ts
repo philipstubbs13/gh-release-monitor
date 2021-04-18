@@ -2,6 +2,7 @@
 export interface IAppState {
   getReposForOrganizationError: string;
   isLoadingReleases: boolean;
+  recentSearches: string[];
   releases: any[];
   releasesMarkedSeen: number[];
   repos: any[];
@@ -10,6 +11,8 @@ export interface IAppState {
 }
 
 export interface IAppContext {
+  clearSearchHistory: () => void;
+  getRecentSearches: () => void;
   getReleases: (organization: string | string[], repo: string | string[]) => void;
   getReposByOrg: () => void;
   getSeenReleases: () => void;

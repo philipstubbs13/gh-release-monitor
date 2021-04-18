@@ -7,8 +7,10 @@ export enum Actions {
   SetSearchError = 'SET_SEARCH_ERROR',
   SetSearchTerm = 'SET_SEARCH_TERM',
   GetSeenReleases = 'GET_SEEN_RELEASES',
+  GetRecentSearches = 'GET_RECENT_SEARCHES',
 }
 
 export enum DatabaseStoreNames {
+  RecentSearches = 'recent_searches',
   SeenReleases = 'seen_releases',
 }

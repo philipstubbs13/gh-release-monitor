@@ -6,6 +6,7 @@ const AppReducer = (state: IAppState, action): IAppState => {
     case Actions.GetRepos:
       return {
         ...state,
+        recentSearches: action.recentSearches,
         repos: action.payload,
         getReposForOrganizationError: '',
         searchError: '',
@@ -48,6 +49,12 @@ const AppReducer = (state: IAppState, action): IAppState => {
       return {
         ...state,
         releasesMarkedSeen: action.payload,
+      };
+    }
+    case Actions.GetRecentSearches: {
+      return {
+        ...state,
+        recentSearches: action.payload,
       };
     }
     default:

@@ -3,9 +3,12 @@ import { Typography, TextField, Grid, Button } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import React from 'react';
 import { useSearchOrganizationFormStyles } from './SearchOrganizationForm.styles';
+import clsx from 'clsx';
 
 export interface IProps {
+  clearSearchHistory: () => void;
   getReposByOrg: () => void;
+  recentSearches: string[];
   searchError: string;
   searchTerm: string;
   // eslint-disable-next-line no-unused-vars
@@ -33,7 +36,7 @@ export const SearchOrganizationForm = (props: IProps) => {
             onInputChange={(event, newInputValue) => {
               props.setSearchTerm(newInputValue);
             }}
-            options={['facebook', 'microsoft']}
+            options={props.recentSearches}
             renderInput={(params) => (
               <TextField
                 {...params}
@@ -46,13 +49,22 @@ export const SearchOrganizationForm = (props: IProps) => {
             value={props.searchTerm}
           />
         </Grid>
-        <Grid item={true} xs={3} className={classes.searchBtnContainer}>
+        <Grid item={true} xs={1} className={classes.searchBtnContainer}>
           <Button
             variant={'contained'}
             type={'submit'}
             className={classes.searchBtn}
             onClick={() => props.getReposByOrg()}>
             Search
+          </Button>
+        </Grid>
+        <Grid item={true} xs={4} className={classes.searchBtnContainer}>
+          <Button
+            variant={'contained'}
+            type={'submit'}
+            className={clsx(classes.clearSearchHistoryBtn, classes.searchBtn)}
+            onClick={() => props.clearSearchHistory()}>
+            Clear Search History
           </Button>
         </Grid>
       </Grid>
@@ -68,6 +80,7 @@ export const SearchOrganizationForm = (props: IProps) => {
 };
 
 SearchOrganizationForm.propTypes = {
+  clearSearchHistory: PropTypes.func.isRequired,
   getReposByOrg: PropTypes.func.isRequired,
   searchError: PropTypes.string.isRequired,
   searchTerm: PropTypes.string.isRequired,
