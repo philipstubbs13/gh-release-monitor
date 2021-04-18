@@ -13,7 +13,7 @@ import { formatDate } from '../../../utils/date.utils';
 export const getStaticPaths = async () => {
   return {
     paths: [],
-    fallback: true,
+    fallback: 'blocking',
   };
 };
 

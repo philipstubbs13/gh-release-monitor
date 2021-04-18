@@ -1,6 +1,6 @@
 import { Actions } from './constants';
 
-export default (state, action) => {
+const AppReducer = (state, action) => {
   switch (action.type) {
     case Actions.GetRepos:
       return {
@@ -16,3 +16,5 @@ export default (state, action) => {
       return state;
   }
 };
+
+export default AppReducer;
