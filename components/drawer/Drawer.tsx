@@ -12,12 +12,17 @@ import { MenuItem } from './Drawer.types';
 import { APP_TITLE } from '../../constants';
 import Link from 'next/link';
 import { useDrawerStyles } from './Drawer.styles';
+import { useRouter } from 'next/router';
+import clsx from 'clsx';
 export interface IProps {
   menuItems: MenuItem[];
 }
 
 export const Drawer = (props: IProps) => {
   const classes = useDrawerStyles();
+  const router = useRouter();
+
+  console.log(router.pathname);
 
   return (
     <MUIDrawer
@@ -31,8 +36,12 @@ export const Drawer = (props: IProps) => {
       <List>
         {props.menuItems.map((item) => (
           <Link href={item.path} key={item.text}>
-            <ListItem button>
-              <ListItemIcon>{item.icon}</ListItemIcon>
+            <ListItem
+              button
+              className={clsx({
+                [classes.activePage]: item.path === router.pathname,
+              })}>
+              <ListItemIcon className={classes.navIcon}>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItem>
           </Link>

@@ -49,14 +49,14 @@ const Home = (props: IPageProps) => {
         </Box>
       )}
       {!state.getReposForOrganizationError && !state.searchError && (
-        <Grid container={true} spacing={3} className={classes.reposContainer}>
+        <Grid container={true} spacing={3} alignItems={'center'} className={classes.reposContainer}>
           <Grid item xs={12}>
             <Typography variant={'h6'}>
               {state.repos.length} repositories found for {state.searchTerm}
             </Typography>
           </Grid>
           {state.repos.map((repo) => (
-            <Grid item={true} xs={4} key={repo.id}>
+            <Grid item={true} xs={12} sm={6} md={4} key={repo.id}>
               <RepoCard repo={repo} />
             </Grid>
           ))}

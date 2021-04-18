@@ -28,22 +28,22 @@ export const drawerWidth = 240;
 export const menuItems = [
   {
     text: 'Home',
-    icon: <HomeOutlined color="primary" />,
+    icon: <HomeOutlined />,
     path: '/',
   },
   {
     text: 'Favorites',
-    icon: <FavoriteOutlined color="primary" />,
+    icon: <FavoriteOutlined />,
     path: '/favorites',
   },
   {
     text: 'About',
-    icon: <InfoOutlined color="primary" />,
+    icon: <InfoOutlined />,
     path: '/about',
   },
   {
     text: 'Help',
-    icon: <HelpOutlined color="primary" />,
+    icon: <HelpOutlined />,
     path: '/help',
   },
 ];

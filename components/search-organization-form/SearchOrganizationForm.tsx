@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { Typography, TextField, Grid, Button } from '@material-ui/core';
+import { Typography, TextField, Grid, Button, Box } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import React from 'react';
 import { useSearchOrganizationFormStyles } from './SearchOrganizationForm.styles';
@@ -21,11 +21,27 @@ export const SearchOrganizationForm = (props: IProps) => {
   return (
     <React.Fragment>
       <Typography variant={'subtitle1'}>
-        To start tracking releases, enter the name of the organization you want to track as the name
+        To start tracking releases, enter name of the organization you want to track as the name
         appears on GitHub.
       </Typography>
+      <Box display={'flex'} marginTop={1}>
+        <Button
+          variant={'contained'}
+          type={'submit'}
+          className={classes.searchBtn}
+          onClick={() => props.getReposByOrg()}>
+          Search
+        </Button>
+        <Button
+          variant={'contained'}
+          type={'submit'}
+          className={clsx(classes.clearSearchHistoryBtn, classes.searchBtn)}
+          onClick={() => props.clearSearchHistory()}>
+          Clear Search History
+        </Button>
+      </Box>
       <Grid container={true} spacing={2} alignItems={'center'}>
-        <Grid item={true} xs={6}>
+        <Grid item={true} xs={12} md={6}>
           <Autocomplete
             classes={{
               inputRoot: classes.inputRoot,
@@ -48,24 +64,6 @@ export const SearchOrganizationForm = (props: IProps) => {
             )}
             value={props.searchTerm}
           />
-        </Grid>
-        <Grid item={true} xs={1} className={classes.searchBtnContainer}>
-          <Button
-            variant={'contained'}
-            type={'submit'}
-            className={classes.searchBtn}
-            onClick={() => props.getReposByOrg()}>
-            Search
-          </Button>
-        </Grid>
-        <Grid item={true} xs={4} className={classes.searchBtnContainer}>
-          <Button
-            variant={'contained'}
-            type={'submit'}
-            className={clsx(classes.clearSearchHistoryBtn, classes.searchBtn)}
-            onClick={() => props.clearSearchHistory()}>
-            Clear Search History
-          </Button>
         </Grid>
       </Grid>
       {Boolean(props.searchError) && (

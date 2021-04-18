@@ -66,15 +66,15 @@ const Repo = (props: IPageProps) => {
               </Typography>
             </Grid>
           </Grid>
-          <Grid container={true} className={classes.releaseRoot}>
-            <Grid item={true} xs={6}>
+          <Grid container={true}>
+            <Grid item={true} xs={12} sm={6}>
               <ReleaseTimeline
                 releaseItems={state.releases}
                 getReleaseById={getReleaseById}
                 releasesMarkedSeen={state.releasesMarkedSeen}
               />
             </Grid>
-            <Grid item={true} xs={6}>
+            <Grid item={true} xs={12} sm={6}>
               {selectedRelease && (
                 <ReleaseDetails
                   author={selectedRelease.author.login}

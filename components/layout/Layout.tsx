@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import Head from 'next/head';
-import { ThemeProvider, Container } from '@material-ui/core';
+import { ThemeProvider, Container, Hidden } from '@material-ui/core';
 import { Drawer } from '@components/drawer/Drawer';
 import { menuItems } from '../../constants';
 import { Navbar } from '@components/navbar/Navbar';
@@ -26,7 +26,9 @@ export const Layout = (props: IProps) => {
       <ThemeProvider theme={theme}>
         <div className={classes.app}>
           <Navbar menuItems={menuItems} subTitle={props.subTitle} />
-          <Drawer menuItems={menuItems} />
+          <Hidden smDown>
+            <Drawer menuItems={menuItems} />
+          </Hidden>
           <div className={classes.content}>
             <div className={classes.toolbar} />
             <Container maxWidth={'md'}>{props.children}</Container>

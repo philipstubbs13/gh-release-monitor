@@ -7,7 +7,7 @@ export const useDrawerStyles = makeStyles((theme: Theme) => {
       width: drawerWidth,
     },
     drawerPaper: {
-      backgroundColor: theme.palette.primary.light,
+      backgroundColor: '#fff',
       borderRight: `2px ${theme.palette.primary.dark} solid`,
       color: theme.palette.primary.dark,
       width: drawerWidth,
@@ -17,6 +17,12 @@ export const useDrawerStyles = makeStyles((theme: Theme) => {
       paddingBottom: theme.spacing(1),
       fontSize: 18,
       fontWeight: theme.typography.fontWeightBold,
+    },
+    navIcon: {
+      color: theme.palette.primary.dark,
+    },
+    activePage: {
+      backgroundColor: theme.palette.primary.light,
     },
   };
 });
