@@ -39,7 +39,7 @@ const Repo = (props: IPageProps) => {
     await getReleases(organization, repo);
   }, []);
 
-  const getReleaseById = (id: String) => {
+  const getReleaseById = (id: number) => {
     const selectedRelease = state.releases.find((releaseItem) => releaseItem.id === id);
     markSeen(id);
 
@@ -111,6 +111,6 @@ export async function getStaticProps() {
 
 Repo.propTypes = {
   description: PropTypes.string.isRequired,
-  subTitle: PropTypes.string.isRequred,
+  subTitle: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };

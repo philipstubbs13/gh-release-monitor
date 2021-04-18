@@ -2,10 +2,11 @@ import { Layout } from '@components/layout/Layout';
 import PropTypes from 'prop-types';
 import { PageTitles } from '../constants';
 import { IPageProps } from '../types';
-import { Typography, TextField, makeStyles, Grid, Theme } from '@material-ui/core';
+import { Typography, makeStyles, Grid, Theme, Box } from '@material-ui/core';
 import { useAppContext } from '../context/state';
 import { useEffect } from 'react';
 import { RepoCard } from '@components/repo-card/RepoCard';
+import { SearchOrganizationForm } from '@components/search-organization-form/SearchOrganizationForm';
 
 const useStyles = makeStyles((theme: Theme) => {
   return {
@@ -16,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) => {
 });
 
 const Home = (props: IPageProps) => {
-  let { state, getReposByOrg } = useAppContext();
+  let { state, getReposByOrg, setSearchTerm } = useAppContext();
   const classes = useStyles();
 
   useEffect(() => {
@@ -25,22 +26,33 @@ const Home = (props: IPageProps) => {
 
   return (
     <Layout description={props.description} subTitle={props.subTitle} title={props.title}>
-      <Typography variant={'subtitle1'}>
-        Enter name of org you would like to track releases for.
-      </Typography>
-      <TextField
-        id={'outlined-search'}
-        label={'Search field'}
-        type={'search'}
-        variant={'outlined'}
+      <SearchOrganizationForm
+        getReposByOrg={getReposByOrg}
+        searchError={state.searchError}
+        searchTerm={state.searchTerm}
+        setSearchTerm={setSearchTerm}
       />
-      <Grid container={true} spacing={3} className={classes.reposContainer}>
-        {state.repos.map((repo) => (
-          <Grid item={true} xs={4} key={repo.id}>
-            <RepoCard repo={repo} />
+      {Boolean(state.getReposForOrganizationError) && (
+        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} marginTop={5}>
+          <Typography variant={'h6'}>Organization not found.</Typography>
+          <Typography>Double check that the organization is spelled correctly.</Typography>
+          <Typography>and matches the organization name displayed in GitHub.</Typography>
+        </Box>
+      )}
+      {!state.getReposForOrganizationError && !state.searchError && (
+        <Grid container={true} spacing={3} className={classes.reposContainer}>
+          <Grid item xs={12}>
+            <Typography variant={'h6'}>
+              {state.repos.length} repositories found for {state.searchTerm}
+            </Typography>
           </Grid>
-        ))}
-      </Grid>
+          {state.repos.map((repo) => (
+            <Grid item={true} xs={4} key={repo.id}>
+              <RepoCard repo={repo} />
+            </Grid>
+          ))}
+        </Grid>
+      )}
     </Layout>
   );
 };
@@ -61,6 +73,6 @@ export async function getStaticProps() {
 
 Home.propTypes = {
   description: PropTypes.string.isRequired,
-  subTitle: PropTypes.string.isRequred,
+  subTitle: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };

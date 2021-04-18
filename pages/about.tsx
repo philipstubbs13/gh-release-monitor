@@ -27,6 +27,6 @@ export async function getStaticProps() {
 
 About.propTypes = {
   description: PropTypes.string.isRequired,
-  subTitle: PropTypes.string.isRequred,
+  subTitle: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
 };

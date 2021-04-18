@@ -9,7 +9,7 @@ export interface IProps {
   author: string;
   authorUrl: string;
   createdAt: string;
-  description: string;
+  description?: string;
   isDraft: boolean;
   isPrerelease: boolean;
   name: string;
@@ -45,10 +45,14 @@ ReleaseDetails.propTypes = {
   author: PropTypes.string.isRequired,
   authorUrl: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.string,
   isDraft: PropTypes.bool.isRequired,
   isPrerelease: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
   publishedAt: PropTypes.string.isRequired,
   tagName: PropTypes.string.isRequired,
+};
+
+ReleaseDetails.defaultProps = {
+  description: '',
 };

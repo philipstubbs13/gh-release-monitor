@@ -17,11 +17,11 @@ export interface IProps {
   authorUrl: string;
   avatarUrl: string;
   // eslint-disable-next-line no-unused-vars
-  getReleaseById: (id: string) => void;
-  id: string;
+  getReleaseById: (id: number) => void;
+  id: number;
   name: string;
   publishedAt: string;
-  releasesMarkedSeen: string[];
+  releasesMarkedSeen: number[];
   tagName: string;
 }
 
@@ -62,12 +62,12 @@ export const ReleaseItem = (props: IProps) => {
   );
 };
 
-ReleaseItem.PropTypes = {
+ReleaseItem.propTypes = {
   author: PropTypes.string.isRequired,
   authorUrl: PropTypes.string.isRequired,
   avatarUrl: PropTypes.string.isRequired,
   getReleaseById: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   publishedAt: PropTypes.string.isRequired,
   tagName: PropTypes.string.isRequired,

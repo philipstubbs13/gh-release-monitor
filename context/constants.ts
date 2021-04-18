@@ -3,4 +3,7 @@ export enum Actions {
   GetRepos = 'GET_REPOS',
   GetReleases = 'GET_RELEASES',
   MarkSeen = 'MARK_SEEN',
+  OrganizationNotFound = 'ORGANIZATION_NOT_FOUND',
+  SetSearchError = 'SET_SEARCH_ERROR',
+  SetSearchTerm = 'SET_SEARCH_TERM',
 }

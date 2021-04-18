@@ -1,5 +1,6 @@
+import { PageTitles } from './constants';
 export interface IPageProps {
   description: string;
-  subTitle: string;
+  subTitle: PageTitles;
   title: string;
 }

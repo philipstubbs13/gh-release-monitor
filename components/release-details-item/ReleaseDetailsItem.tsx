@@ -28,7 +28,7 @@ export const ReleaseDetailsItem = (props: IProps) => {
 ReleaseDetailsItem.propTypes = {
   info: PropTypes.string.isRequired,
   isLink: PropTypes.bool,
-  label: PropTypes.string.isRequred,
+  label: PropTypes.string.isRequired,
 };
 
 ReleaseDetailsItem.defaultProps = {

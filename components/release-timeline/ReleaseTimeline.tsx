@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 
 export interface IProps {
   // eslint-disable-next-line no-unused-vars
-  getReleaseById: (id: string) => void;
+  getReleaseById: (id: number) => void;
   releaseItems: any[];
-  releasesMarkedSeen: string[];
+  releasesMarkedSeen: number[];
 }
 
 export const ReleaseTimeline = (props: IProps) => {
@@ -35,5 +35,5 @@ export const ReleaseTimeline = (props: IProps) => {
 ReleaseTimeline.propTypes = {
   getReleaseById: PropTypes.func.isRequired,
   releaseItems: PropTypes.arrayOf(PropTypes.object).isRequired,
-  releasesMarkedSeen: PropTypes.arrayOf(PropTypes.string).isRequired,
+  releasesMarkedSeen: PropTypes.arrayOf(PropTypes.number).isRequired,
 };

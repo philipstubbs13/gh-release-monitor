@@ -1,16 +1,18 @@
 import { Actions } from './constants';
+import { IAppState } from './types';
 
-const AppReducer = (state, action) => {
+const AppReducer = (state: IAppState, action): IAppState => {
   switch (action.type) {
     case Actions.GetRepos:
       return {
         ...state,
         repos: action.payload,
+        getReposForOrganizationError: '',
+        searchError: '',
       };
     case Actions.GetReleases:
       return {
         ...state,
-        hasNoReleases: action.payload.length ? false : true,
         isLoadingReleases: false,
         releases: action.payload,
       };
@@ -22,6 +24,24 @@ const AppReducer = (state, action) => {
       return {
         ...state,
         releasesMarkedSeen: updatedReleasesMarkedSeen,
+      };
+    }
+    case Actions.SetSearchTerm: {
+      return {
+        ...state,
+        searchTerm: action.value,
+      };
+    }
+    case Actions.SetSearchError: {
+      return {
+        ...state,
+        searchError: action.error,
+      };
+    }
+    case Actions.OrganizationNotFound: {
+      return {
+        ...state,
+        getReposForOrganizationError: action.error,
       };
     }
     default:
