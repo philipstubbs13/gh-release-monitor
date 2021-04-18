@@ -10,8 +10,20 @@ const AppReducer = (state, action) => {
     case Actions.GetReleases:
       return {
         ...state,
+        hasNoReleases: action.payload.length ? false : true,
+        isLoadingReleases: false,
         releases: action.payload,
       };
+    case Actions.MarkSeen: {
+      let updatedReleasesMarkedSeen = [...state.releasesMarkedSeen];
+      if (!state.releasesMarkedSeen.includes(action.payload)) {
+        updatedReleasesMarkedSeen = [...state.releasesMarkedSeen, action.payload];
+      }
+      return {
+        ...state,
+        releasesMarkedSeen: updatedReleasesMarkedSeen,
+      };
+    }
     default:
       return state;
   }

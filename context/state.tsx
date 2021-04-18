@@ -7,7 +7,9 @@ import { Actions } from './constants';
 // eslint-disable-next-line react/prop-types
 export function AppWrapper({ children }) {
   const initialState = {
+    isLoadingReleases: true,
     releases: [],
+    releasesMarkedSeen: [],
     repos: [],
   };
 
@@ -35,8 +37,15 @@ export function AppWrapper({ children }) {
     });
   }
 
+  function markSeen(releaseId: string) {
+    dispatch({
+      type: Actions.MarkSeen,
+      payload: releaseId,
+    });
+  }
+
   return (
-    <AppContext.Provider value={{ state, getReposByOrg, getReleases }}>
+    <AppContext.Provider value={{ state, getReposByOrg, getReleases, markSeen }}>
       {children}
     </AppContext.Provider>
   );

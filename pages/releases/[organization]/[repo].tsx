@@ -2,13 +2,22 @@ import { Layout } from '@components/layout/Layout';
 import PropTypes from 'prop-types';
 import { PageTitles } from '../../../constants';
 import { IPageProps } from '../../../types';
-import { Typography, makeStyles, Grid } from '@material-ui/core';
+import { Typography, Grid, makeStyles, Theme } from '@material-ui/core';
 import { useAppContext } from '../../../context/state';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { ReleaseTimeline } from '@components/release-timeline/ReleaseTimeline';
-import { ReleaseDetailsItem } from '@components/release-details-item/ReleaseDetailsItem';
-import { formatDate } from '../../../utils/date.utils';
+import { NoReleasesFound } from '@components/no-releases-found/NoReleasesFound';
+import { ReleaseDetails } from '@components/release-details/ReleaseDetails';
+
+export const useStyles = makeStyles((theme: Theme) => {
+  return {
+    releaseRoot: {
+      marginTop: theme.spacing(3),
+      marginBottom: theme.spacing(3),
+    },
+  };
+});
 
 export const getStaticPaths = async () => {
   return {
@@ -17,22 +26,12 @@ export const getStaticPaths = async () => {
   };
 };
 
-const useStyles = makeStyles((theme) => {
-  return {
-    releaseDetails: {
-      marginTop: 34,
-      marginBottom: 20,
-      fontWeight: theme.typography.fontWeightBold,
-    },
-  };
-});
-
 const Repo = (props: IPageProps) => {
-  let { state, getReleases } = useAppContext();
-  const classes = useStyles();
+  let { state, getReleases, markSeen } = useAppContext();
   const router = useRouter();
   const { organization, repo } = router.query;
   const [selectedRelease, setSelectedRelease] = useState(null);
+  const classes = useStyles();
 
   useEffect(async () => {
     const { organization, repo } = router.query;
@@ -42,53 +41,56 @@ const Repo = (props: IPageProps) => {
 
   const getReleaseById = (id: String) => {
     const selectedRelease = state.releases.find((releaseItem) => releaseItem.id === id);
+    markSeen(id);
 
     setSelectedRelease(selectedRelease);
   };
-  const isDraft = selectedRelease?.draft ? 'Yes' : 'No';
-  const isPrerelease = selectedRelease?.prerelease ? 'Yes' : 'No';
 
   return (
     <Layout description={props.description} title={props.title} subTitle={props.subTitle}>
-      <Typography variant={'h6'}>
-        {state.releases.length} releases found for {organization}/{repo}
-      </Typography>
-      <Grid container={true} spacing={3}>
-        <Grid item={true} xs={6}>
-          <ReleaseTimeline releaseItems={state.releases} getReleaseById={getReleaseById} />
-        </Grid>
-        <Grid item={true} xs={6}>
-          {selectedRelease && (
-            <React.Fragment>
-              <Typography variant={'subtitle1'} className={classes.releaseDetails}>
-                {selectedRelease.name}
+      {state.isLoadingReleases && <div>Loading...</div>}
+      {!state.isLoadingReleases && !state.releases.length && (
+        <NoReleasesFound organization={organization} repo={repo} />
+      )}
+      {!state.isLoadingReleases && Boolean(state.releases.length) && (
+        <React.Fragment>
+          <Grid container={true}>
+            <Grid item={true} xs={12}>
+              <Typography variant={'h6'}>
+                {state.releases.length} releases found for {organization}/{repo}
               </Typography>
-              <a
-                href={selectedRelease.author.html_url}
-                target={'_blank'}
-                rel={'noopener noreferrer'}>
-                <ReleaseDetailsItem
-                  label="Author"
-                  info={selectedRelease.author.login}
-                  isLink={true}
+              <Typography>
+                Click a release in the timeline to see more details, which marks that release as
+                seen (green border).
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid container={true} className={classes.releaseRoot}>
+            <Grid item={true} xs={6}>
+              <ReleaseTimeline
+                releaseItems={state.releases}
+                getReleaseById={getReleaseById}
+                releasesMarkedSeen={state.releasesMarkedSeen}
+              />
+            </Grid>
+            <Grid item={true} xs={6}>
+              {selectedRelease && (
+                <ReleaseDetails
+                  author={selectedRelease.author.login}
+                  authorUrl={selectedRelease.author.html_url}
+                  createdAt={selectedRelease.created_at}
+                  description={selectedRelease.description}
+                  isDraft={selectedRelease.draft}
+                  isPrerelease={selectedRelease.prerelease}
+                  name={selectedRelease.name}
+                  publishedAt={selectedRelease.published_at}
+                  tagName={selectedRelease.tag_name}
                 />
-              </a>
-              <ReleaseDetailsItem label={'Description'} info={selectedRelease.body} />
-              <ReleaseDetailsItem
-                label={'Created At'}
-                info={formatDate(selectedRelease.created_at)}
-              />
-              <ReleaseDetailsItem
-                label={'Published At'}
-                info={formatDate(selectedRelease.published_at)}
-              />
-              <ReleaseDetailsItem label={'Tag'} info={selectedRelease.tag_name} />
-              <ReleaseDetailsItem label="Is Prerelease?" info={isPrerelease} />
-              <ReleaseDetailsItem label="Is Draft?" info={isDraft} />
-            </React.Fragment>
-          )}
-        </Grid>
-      </Grid>
+              )}
+            </Grid>
+          </Grid>
+        </React.Fragment>
+      )}
     </Layout>
   );
 };
@@ -101,7 +103,7 @@ export async function getStaticProps() {
   return {
     props: {
       description: configData.default.description,
-      subTitle: PageTitles.Home,
+      subTitle: PageTitles.ReleaseDetails,
       title: configData.default.title,
     },
   };

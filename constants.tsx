@@ -13,6 +13,7 @@ export enum PageTitles {
   Help = 'Help',
   Home = 'Home',
   FourOFour = '404',
+  ReleaseDetails = 'Release Details',
 }
 
 export enum PageRoutes {

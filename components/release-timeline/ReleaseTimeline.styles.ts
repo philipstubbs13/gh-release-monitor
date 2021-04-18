@@ -7,8 +7,4 @@ export const useReleaseTimelineStyles = makeStyles((theme: Theme) => ({
   bold: {
     fontWeight: 'bold',
   },
-  instructions: {
-    marginTop: 20,
-    marginBottom: 20,
-  },
 }));

@@ -5,6 +5,9 @@ export const useReleaseItemStyles = makeStyles((theme: Theme) => ({
     padding: '6px 16px',
     border: `2px solid ${theme.palette.secondary.dark}`,
   },
+  paperMarkedSeen: {
+    border: `2px solid ${theme.palette.success.main}`,
+  },
   avatar: {
     width: theme.spacing(4),
     height: theme.spacing(4),
