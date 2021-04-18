@@ -2,8 +2,11 @@ import React, { createContext, useContext, useReducer } from 'react';
 import AppReducer from './AppReducer';
 const AppContext = createContext();
 import { GITHUB_API_BASE_URL } from '../constants';
-import { Actions } from './constants';
+import { Actions, DatabaseStoreNames } from './constants';
 import { IAppState, IAppContext } from './types';
+import idb from 'idb';
+
+const uuidv1 = require('uuid/v1');
 
 // eslint-disable-next-line react/prop-types
 export function AppWrapper({ children }) {
@@ -60,10 +63,25 @@ export function AppWrapper({ children }) {
   }
 
   function markSeen(releaseId: number) {
-    dispatch({
-      type: Actions.MarkSeen,
-      payload: releaseId,
-    });
+    let seenReleases = state.releasesMarkedSeen;
+    if (!seenReleases.includes(releaseId)) {
+      seenReleases.push(releaseId);
+    }
+    seenReleasesDB().then((db) =>
+      db
+        .transaction(DatabaseStoreNames.SeenReleases, 'readwrite')
+        .objectStore(DatabaseStoreNames.SeenReleases)
+        .put({
+          seenReleases,
+          id: releaseId,
+        })
+        .then(() => {
+          dispatch({
+            type: Actions.MarkSeen,
+            payload: releaseId,
+          });
+        })
+    );
   }
 
   function setSearchTerm(newValue: string | null) {
@@ -73,8 +91,46 @@ export function AppWrapper({ children }) {
     });
   }
 
+  const getSeenReleases = () => {
+    seenReleasesDB()
+      .then((db) =>
+        db
+          .transaction(DatabaseStoreNames.SeenReleases)
+          .objectStore(DatabaseStoreNames.SeenReleases)
+          .getAll()
+      )
+      .then((obj) => {
+        if (obj.length === 0) {
+          seenReleasesDB()
+            .then((db) => {
+              const tx = db.transaction(DatabaseStoreNames.SeenReleases, 'readwrite');
+              tx.objectStore(DatabaseStoreNames.SeenReleases).put({
+                seenReleases: [],
+                id: uuidv1(),
+              });
+            })
+            .catch((error) => console.log(error));
+        } else {
+          dispatch({
+            type: Actions.GetSeenReleases,
+            payload: obj[0].seenReleases,
+          });
+        }
+      });
+  };
+
+  const seenReleasesDB = () =>
+    idb.open(DatabaseStoreNames.SeenReleases, 1, (upgradeDb) => {
+      // eslint-disable-next-line default-case
+      switch (upgradeDb.oldVersion) {
+        case 0:
+          upgradeDb.createObjectStore(DatabaseStoreNames.SeenReleases, { keyPath: 'id' });
+      }
+    });
+
   return (
-    <AppContext.Provider value={{ state, getReposByOrg, getReleases, markSeen, setSearchTerm }}>
+    <AppContext.Provider
+      value={{ state, getReposByOrg, getReleases, markSeen, setSearchTerm, getSeenReleases }}>
       {children}
     </AppContext.Provider>
   );

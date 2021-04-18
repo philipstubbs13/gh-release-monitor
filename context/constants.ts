@@ -6,4 +6,9 @@ export enum Actions {
   OrganizationNotFound = 'ORGANIZATION_NOT_FOUND',
   SetSearchError = 'SET_SEARCH_ERROR',
   SetSearchTerm = 'SET_SEARCH_TERM',
+  GetSeenReleases = 'GET_SEEN_RELEASES',
+}
+
+export enum DatabaseStoreNames {
+  SeenReleases = 'seen_releases',
 }

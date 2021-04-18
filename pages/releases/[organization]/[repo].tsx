@@ -27,7 +27,7 @@ export const getStaticPaths = async () => {
 };
 
 const Repo = (props: IPageProps) => {
-  let { state, getReleases, markSeen } = useAppContext();
+  let { state, getReleases, markSeen, getSeenReleases } = useAppContext();
   const router = useRouter();
   const { organization, repo } = router.query;
   const [selectedRelease, setSelectedRelease] = useState(null);
@@ -37,6 +37,7 @@ const Repo = (props: IPageProps) => {
     const { organization, repo } = router.query;
 
     await getReleases(organization, repo);
+    await getSeenReleases();
   }, []);
 
   const getReleaseById = (id: number) => {

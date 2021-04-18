@@ -12,6 +12,7 @@ export interface IAppState {
 export interface IAppContext {
   getReleases: (organization: string | string[], repo: string | string[]) => void;
   getReposByOrg: () => void;
+  getSeenReleases: () => void;
   markSeen: (releaseId: number) => void;
   setSearchTerm: (event) => void;
   state: IAppState;

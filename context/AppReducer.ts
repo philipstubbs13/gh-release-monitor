@@ -44,6 +44,12 @@ const AppReducer = (state: IAppState, action): IAppState => {
         getReposForOrganizationError: action.error,
       };
     }
+    case Actions.GetSeenReleases: {
+      return {
+        ...state,
+        releasesMarkedSeen: action.payload,
+      };
+    }
     default:
       return state;
   }
