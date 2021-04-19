@@ -45,22 +45,22 @@ export const ReleaseDetails = (props: IProps) => {
     <React.Fragment>
       <Dialog
         onClose={props.onClose}
-        aria-labelledby="customized-dialog-title"
+        aria-labelledby={'ustomized-dialog-title'}
         fullWidth={true}
         maxWidth={'xs'}
         open={true}>
         <DialogTitle
-          id="customized-dialog-title"
+          id={'customized-dialog-title'}
           onClose={props.onClose}
           className={classes.dialogTitle}>
           Release: {releaseName}
-          <IconButton aria-label="close" className={classes.closeButton} onClick={props.onClose}>
+          <IconButton aria-label={'close'} className={classes.closeButton} onClick={props.onClose}>
             <Close />
           </IconButton>
         </DialogTitle>
         <DialogContent dividers>
           <a href={props.authorUrl} target={'_blank'} rel={'noopener noreferrer'}>
-            <ReleaseDetailsItem label="Author" info={props.author} isLink={true} />
+            <ReleaseDetailsItem label={'Author'} info={props.author} isLink={true} />
           </a>
           {props.description && (
             <Box display={'flex'} marginTop={1}>

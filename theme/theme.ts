@@ -1,7 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
-// https://www.schemecolor.com/light-dark-blue-gradient.php
-
 export const theme = createMuiTheme({
   palette: {
     primary: {

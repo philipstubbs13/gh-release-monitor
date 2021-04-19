@@ -7,7 +7,7 @@ export const useDrawerStyles = makeStyles((theme: Theme) => {
       width: drawerWidth,
     },
     drawerPaper: {
-      backgroundColor: '#fff',
+      backgroundColor: theme.palette.background.default,
       borderRight: `2px ${theme.palette.primary.dark} solid`,
       color: theme.palette.primary.dark,
       width: drawerWidth,

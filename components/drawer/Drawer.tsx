@@ -22,8 +22,6 @@ export const Drawer = (props: IProps) => {
   const classes = useDrawerStyles();
   const router = useRouter();
 
-  console.log(router.pathname);
-
   return (
     <MUIDrawer
       anchor="left"

@@ -14,9 +14,9 @@ export enum Actions {
 }
 
 export enum DatabaseStoreNames {
-  FavoriteReleases = 'favorite_releases',
-  RecentSearches = 'recent_searches',
-  SeenReleases = 'seen_releases',
+  FavoriteReleases = 'grm_favorite_releases',
+  RecentSearches = 'grm_recent_searches',
+  SeenReleases = 'grm_seen_releases',
 }
 
 export const DATABASE_STORE_ID = 'gh-release-monitor1313';

@@ -25,8 +25,9 @@ export const SearchOrganizationForm = (props: IProps) => {
         appears on GitHub.
       </Typography>
       <Typography variant={'subtitle1'}>
-        To clear your recent searches from the autocomplete dropdown, click{' '}
-        <b>CLEAR SEARCH HISTORY</b>.
+        The app automatically saves GitHub repos you search for so that you can quickly access them
+        at a later time. To clear your recent organization searches from the autocomplete dropdown,
+        click <b>CLEAR SEARCH HISTORY</b>.
       </Typography>
       <Box display={'flex'} marginTop={3}>
         <Button

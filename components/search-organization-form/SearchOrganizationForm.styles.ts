@@ -7,7 +7,7 @@ export const useSearchOrganizationFormStyles = makeStyles((theme: Theme) => {
       paddingBottom: theme.spacing(1),
       borderRadius: 0,
       backgroundColor: theme.palette.primary.dark,
-      color: '#fff',
+      color: theme.palette.background.default,
 
       '&:hover': {
         backgroundColor: theme.palette.primary.light,
