@@ -18,3 +18,5 @@ export enum DatabaseStoreNames {
   RecentSearches = 'recent_searches',
   SeenReleases = 'seen_releases',
 }
+
+export const DATABASE_STORE_ID = 'gh-release-monitor1313';

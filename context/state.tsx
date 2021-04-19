@@ -2,10 +2,9 @@ import React, { createContext, useContext, useReducer } from 'react';
 import AppReducer from './AppReducer';
 const AppContext = createContext();
 import { GITHUB_API_BASE_URL } from '../constants';
-import { Actions, DatabaseStoreNames } from './constants';
+import { Actions, DatabaseStoreNames, DATABASE_STORE_ID } from './constants';
 import { IAppState, IAppContext } from './types';
 import idb from 'idb';
-import { v4 as uuidv4 } from 'uuid';
 
 // eslint-disable-next-line react/prop-types
 export function AppWrapper({ children }) {
@@ -49,7 +48,7 @@ export function AppWrapper({ children }) {
           .objectStore(DatabaseStoreNames.RecentSearches)
           .put({
             recentSearches,
-            id: uuidv4(),
+            id: DATABASE_STORE_ID,
           })
           .then(() => {
             dispatch({
@@ -91,7 +90,7 @@ export function AppWrapper({ children }) {
         .objectStore(DatabaseStoreNames.SeenReleases)
         .put({
           seenReleases,
-          id: releaseId,
+          id: DATABASE_STORE_ID,
         })
         .then(() => {
           dispatch({
@@ -109,7 +108,7 @@ export function AppWrapper({ children }) {
         .objectStore(DatabaseStoreNames.FavoriteReleases)
         .put({
           favoriteReleases: [...state.favoriteReleases, release],
-          id: release.id,
+          id: DATABASE_STORE_ID,
         })
         .then(() => {
           dispatch({
@@ -131,7 +130,7 @@ export function AppWrapper({ children }) {
         .objectStore(DatabaseStoreNames.FavoriteReleases)
         .put({
           favoriteReleases: filteredReleases,
-          id,
+          id: DATABASE_STORE_ID,
         })
         .then(() => {
           dispatch({
@@ -157,7 +156,7 @@ export function AppWrapper({ children }) {
               const tx = db.transaction(DatabaseStoreNames.FavoriteReleases, 'readwrite');
               tx.objectStore(DatabaseStoreNames.FavoriteReleases).put({
                 favoriteReleases: [],
-                id: uuidv4(),
+                id: DATABASE_STORE_ID,
               });
             })
             .catch((error) => console.log(error));
@@ -192,7 +191,7 @@ export function AppWrapper({ children }) {
               const tx = db.transaction(DatabaseStoreNames.SeenReleases, 'readwrite');
               tx.objectStore(DatabaseStoreNames.SeenReleases).put({
                 seenReleases: [],
-                id: uuidv4(),
+                id: DATABASE_STORE_ID,
               });
             })
             .catch((error) => console.log(error));
@@ -220,7 +219,7 @@ export function AppWrapper({ children }) {
               const tx = db.transaction(DatabaseStoreNames.RecentSearches, 'readwrite');
               tx.objectStore(DatabaseStoreNames.RecentSearches).put({
                 recentSearches: [],
-                id: uuidv4(),
+                id: DATABASE_STORE_ID,
               });
             })
             .catch((error) => console.log(error));
@@ -240,7 +239,7 @@ export function AppWrapper({ children }) {
         .objectStore(DatabaseStoreNames.RecentSearches)
         .put({
           recentSearches: [],
-          id: uuidv4(),
+          id: DATABASE_STORE_ID,
         })
         .then(() => {
           dispatch({
