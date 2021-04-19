@@ -50,6 +50,16 @@ const Home = (props: IPageProps) => {
           <Typography>and matches the organization name displayed in GitHub.</Typography>
         </Box>
       )}
+      {Boolean(state.errorFetchingRepos) && (
+        <Box display={'flex'} flexDirection={'column'} alignItems={'center'} marginTop={5}>
+          <Typography variant={'h6'}>
+            Unable to get repositories for the specified organization.
+          </Typography>
+          <Typography>Double check that the organization is spelled correctly.</Typography>
+          <Typography>and matches the organization name displayed in GitHub.</Typography>
+          <Typography>If that does not work, try checking the Internet connection.</Typography>
+        </Box>
+      )}
       {!state.getReposForOrganizationError && !state.searchError && Boolean(state.repos.length) && (
         <Grid container={true} spacing={3} alignItems={'center'} className={classes.reposContainer}>
           <Grid item xs={12}>

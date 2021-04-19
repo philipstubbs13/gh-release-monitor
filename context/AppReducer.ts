@@ -9,6 +9,7 @@ const AppReducer = (state: IAppState, action): IAppState => {
         recentSearches: action.recentSearches,
         repos: action.payload,
         getReposForOrganizationError: '',
+        errorFetchingRepos: '',
         searchError: '',
       };
     case Actions.GetReleases:
@@ -43,6 +44,14 @@ const AppReducer = (state: IAppState, action): IAppState => {
       return {
         ...state,
         getReposForOrganizationError: action.error,
+        errorFetchingRepos: '',
+      };
+    }
+    case Actions.ErrorFetchingRepos: {
+      return {
+        ...state,
+        getReposForOrganizationError: '',
+        errorFetchingRepos: action.error,
       };
     }
     case Actions.GetSeenReleases: {

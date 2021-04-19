@@ -18,6 +18,7 @@ export function AppWrapper({ children }) {
     repos: [],
     searchError: '',
     searchTerm: '',
+    errorFetchingRepos: '',
   };
 
   const [state, dispatch] = useReducer(AppReducer, initialState);
@@ -58,6 +59,8 @@ export function AppWrapper({ children }) {
             });
           })
       );
+
+      return;
     }
 
     if (response.status === 404) {
@@ -65,7 +68,14 @@ export function AppWrapper({ children }) {
         type: Actions.OrganizationNotFound,
         error: `Organization ${state.searchTerm} not found. Double check that the organization is spelled correctly and matches the organization name displayed in GitHub.`,
       });
+
+      return;
     }
+
+    dispatch({
+      type: Actions.ErrorFetchingRepos,
+      error: 'Failed to get repositories for specified organization.',
+    });
   }
 
   async function getReleases(organization: string, repo: string) {

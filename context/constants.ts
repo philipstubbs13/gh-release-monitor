@@ -11,6 +11,7 @@ export enum Actions {
   GetSeenReleases = 'GET_SEEN_RELEASES',
   GetRecentSearches = 'GET_RECENT_SEARCHES',
   RemoveFromFavorites = 'REMOVE_FROM_FAVORITES',
+  ErrorFetchingRepos = 'ERROR_FETCHING_REPOS',
 }
 
 export enum DatabaseStoreNames {

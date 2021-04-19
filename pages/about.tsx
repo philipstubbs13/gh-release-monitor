@@ -96,6 +96,45 @@ const About = (props: IPageProps) => {
           . These issues will be addressed in a future release.
         </Typography>
       </Box>
+      <Box my={3}>
+        <Typography variant={'h6'}>Contact Me</Typography>
+        <Typography>
+          If you have any questions or would like to discuss the project further, here are some ways
+          to contact me:
+        </Typography>
+        <ul>
+          <li>
+            {' '}
+            <a
+              href={'mailto:philipstubbs13@gmail.com'}
+              target={'_blank'}
+              className={classes.link}
+              rel={'noopener noreferrer'}>
+              Email
+            </a>
+          </li>
+          <li>
+            {' '}
+            <a
+              href={'https://www.linkedin.com/in/philipjstubbs/'}
+              target={'_blank'}
+              className={classes.link}
+              rel={'noopener noreferrer'}>
+              LinkedIn
+            </a>
+          </li>
+          <li>
+            {' '}
+            <a
+              href={'http://philjstubbs.com'}
+              target={'_blank'}
+              className={classes.link}
+              rel={'noopener noreferrer'}>
+              Website
+            </a>
+          </li>
+        </ul>
+      </Box>
     </Layout>
   );
 };

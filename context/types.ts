@@ -9,6 +9,7 @@ export interface IAppState {
   repos: any[];
   searchError: string;
   searchTerm: string;
+  errorFetchingRepos: string;
 }
 
 export interface IAppContext {

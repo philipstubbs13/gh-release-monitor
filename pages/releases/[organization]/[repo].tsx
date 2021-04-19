@@ -68,7 +68,7 @@ const Repo = (props: IPageProps) => {
             <Typography variant={'h6'}>
               {state.releases.length} releases found for {organization}/{repo}
             </Typography>
-            <Typography>Click release in timeline to see more details.</Typography>
+            <Typography>Click a release box in timeline to see more details.</Typography>
             <Typography>
               Clicking a release marks that release as seen (
               <Typography component={'span'} className={classes.green}>

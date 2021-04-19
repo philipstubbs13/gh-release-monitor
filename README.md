@@ -66,6 +66,36 @@ The following technologies were used to build this project.
 - [TypeScript](https://www.typescriptlang.org/)
 - and a whole bunch of other smaller third-party packages. The full list of packages used can be found in the `package.json` file.
 
+## Screens
+
+### Home
+
+<img src="./readme_images/home.png">
+
+### Favorites
+
+<img src="./readme_images/favorites.png">
+
+### Release Details
+
+<img src="./readme_images/release_details.png">
+
+### Release Details Dialog
+
+<img src="./readme_images/release_details_dialog.png">
+
+### About
+
+<img src="./readme_images/about.png">
+
+## Contact Me
+
+If you have questions or would like to discuss this project further, here are some ways you can contact me:
+
+- Email: philipstubbs13@gmail.com
+- LinkedIn: <https://www.linkedin.com/in/philipjstubbs/>
+- Website: <http://philjstubbs.com>
+
 ## Issues
 
 If you find an issue while using the app or have a request, log the issue or request [here](https://github.com/philipstubbs13/gh-release-monitor/issues). These issues will be addressed in a future release.
