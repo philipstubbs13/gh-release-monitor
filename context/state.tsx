@@ -18,7 +18,7 @@ export function AppWrapper({ children }) {
     releasesMarkedSeen: [],
     repos: [],
     searchError: '',
-    searchTerm: 'microsoft',
+    searchTerm: '',
   };
 
   const [state, dispatch] = useReducer(AppReducer, initialState);

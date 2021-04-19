@@ -24,7 +24,11 @@ export const SearchOrganizationForm = (props: IProps) => {
         To start tracking releases, enter name of the organization you want to track as the name
         appears on GitHub.
       </Typography>
-      <Box display={'flex'} marginTop={1}>
+      <Typography variant={'subtitle1'}>
+        To clear your recent searches from the autocomplete dropdown, click{' '}
+        <b>CLEAR SEARCH HISTORY</b>.
+      </Typography>
+      <Box display={'flex'} marginTop={3}>
         <Button
           variant={'contained'}
           type={'submit'}

@@ -1,6 +1,6 @@
 import { Layout } from '@components/layout/Layout';
 import PropTypes from 'prop-types';
-import { PageTitles } from '../constants';
+import { PageTitles, APP_DESCRIPTION } from '../constants';
 import { IPageProps } from '../types';
 import { Typography, makeStyles, Grid, Theme, Box } from '@material-ui/core';
 import { useAppContext } from '../context/state';
@@ -28,11 +28,13 @@ const Home = (props: IPageProps) => {
 
   useEffect(async () => {
     await getRecentSearches();
-    await getReposByOrg();
   }, []);
 
   return (
     <Layout description={props.description} subTitle={props.subTitle} title={props.title}>
+      <Box marginBottom={2}>
+        <Typography>{APP_DESCRIPTION}</Typography>
+      </Box>
       <SearchOrganizationForm
         clearSearchHistory={clearSearchHistory}
         getReposByOrg={getReposByOrg}
@@ -43,17 +45,15 @@ const Home = (props: IPageProps) => {
       />
       {Boolean(state.getReposForOrganizationError) && (
         <Box display={'flex'} flexDirection={'column'} alignItems={'center'} marginTop={5}>
-          <Typography variant={'h6'}>Organization not found.</Typography>
+          <Typography variant={'h6'}>No repositories found for specified organization.</Typography>
           <Typography>Double check that the organization is spelled correctly.</Typography>
           <Typography>and matches the organization name displayed in GitHub.</Typography>
         </Box>
       )}
-      {!state.getReposForOrganizationError && !state.searchError && (
+      {!state.getReposForOrganizationError && !state.searchError && Boolean(state.repos.length) && (
         <Grid container={true} spacing={3} alignItems={'center'} className={classes.reposContainer}>
           <Grid item xs={12}>
-            <Typography variant={'h6'}>
-              {state.repos.length} repositories found for {state.searchTerm}
-            </Typography>
+            <Typography variant={'h6'}>{state.repos.length} repositories found.</Typography>
           </Grid>
           {state.repos.map((repo) => (
             <Grid item={true} xs={12} sm={6} md={4} key={repo.id}>

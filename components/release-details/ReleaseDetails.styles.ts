@@ -18,5 +18,9 @@ export const useReleaseDetailsStyles = makeStyles((theme: Theme) => {
     green: {
       color: theme.palette.success.main,
     },
+    dialogTitle: {
+      backgroundColor: theme.palette.primary.dark,
+      color: theme.palette.primary.light,
+    },
   };
 });

@@ -49,7 +49,10 @@ export const ReleaseDetails = (props: IProps) => {
         fullWidth={true}
         maxWidth={'xs'}
         open={true}>
-        <DialogTitle id="customized-dialog-title" onClose={props.onClose}>
+        <DialogTitle
+          id="customized-dialog-title"
+          onClose={props.onClose}
+          className={classes.dialogTitle}>
           Release: {releaseName}
           <IconButton aria-label="close" className={classes.closeButton} onClick={props.onClose}>
             <Close />
