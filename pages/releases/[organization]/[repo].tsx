@@ -2,19 +2,19 @@ import { Layout } from '@components/layout/Layout';
 import PropTypes from 'prop-types';
 import { PageTitles } from '../../../constants';
 import { IPageProps } from '../../../types';
-import { Typography, Grid, makeStyles, Theme } from '@material-ui/core';
+import { Typography, Grid, makeStyles, Box } from '@material-ui/core';
 import { useAppContext } from '../../../context/state';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { ReleaseTimeline } from '@components/release-timeline/ReleaseTimeline';
 import { NoReleasesFound } from '@components/no-releases-found/NoReleasesFound';
 import { ReleaseDetails } from '@components/release-details/ReleaseDetails';
+import { green } from '@material-ui/core/colors';
 
-export const useStyles = makeStyles((theme: Theme) => {
+export const useStyles = makeStyles(() => {
   return {
-    releaseRoot: {
-      marginTop: theme.spacing(3),
-      marginBottom: theme.spacing(3),
+    green: {
+      color: green[500],
     },
   };
 });
@@ -55,41 +55,45 @@ const Repo = (props: IPageProps) => {
       )}
       {!state.isLoadingReleases && Boolean(state.releases.length) && (
         <React.Fragment>
+          <Box display={'flex'} flexDirection={'column'} alignItems={'center'}>
+            <Typography variant={'h6'}>
+              {state.releases.length} releases found for {organization}/{repo}
+            </Typography>
+            <Typography>Click a release in the timeline to see more details.</Typography>
+            <Typography>
+              Clicking a release marks that release as seen (
+              <Typography component={'span'} className={classes.green}>
+                green
+              </Typography>
+              ).
+            </Typography>
+          </Box>
           <Grid container={true}>
             <Grid item={true} xs={12}>
-              <Typography variant={'h6'}>
-                {state.releases.length} releases found for {organization}/{repo}
-              </Typography>
-              <Typography>
-                Click a release in the timeline to see more details, which marks that release as
-                seen (green border).
-              </Typography>
-            </Grid>
-          </Grid>
-          <Grid container={true}>
-            <Grid item={true} xs={12} sm={6}>
               <ReleaseTimeline
                 releaseItems={state.releases}
                 getReleaseById={getReleaseById}
                 releasesMarkedSeen={state.releasesMarkedSeen}
               />
             </Grid>
-            <Grid item={true} xs={12} sm={6}>
-              {selectedRelease && (
-                <ReleaseDetails
-                  author={selectedRelease.author.login}
-                  authorUrl={selectedRelease.author.html_url}
-                  createdAt={selectedRelease.created_at}
-                  description={selectedRelease.description}
-                  isDraft={selectedRelease.draft}
-                  isPrerelease={selectedRelease.prerelease}
-                  name={selectedRelease.name}
-                  publishedAt={selectedRelease.published_at}
-                  tagName={selectedRelease.tag_name}
-                />
-              )}
-            </Grid>
           </Grid>
+          {selectedRelease && (
+            <ReleaseDetails
+              addToFavorites={() => {}}
+              author={selectedRelease.author.login}
+              authorUrl={selectedRelease.author.html_url}
+              createdAt={selectedRelease.created_at}
+              description={selectedRelease.description}
+              id={selectedRelease.id}
+              isDraft={selectedRelease.draft}
+              isPrerelease={selectedRelease.prerelease}
+              name={selectedRelease.name}
+              onClose={() => setSelectedRelease(null)}
+              publishedAt={selectedRelease.published_at}
+              releasesMarkedSeen={state.releasesMarkedSeen}
+              tagName={selectedRelease.tag_name}
+            />
+          )}
         </React.Fragment>
       )}
     </Layout>

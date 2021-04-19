@@ -33,7 +33,7 @@ export const ReleaseItem = (props: IProps) => {
   return (
     <TimelineItem>
       <TimelineOppositeContent>
-        <Typography variant={'body2'}>Publisehd</Typography>
+        <Typography variant={'body2'}>Published</Typography>
         <Typography variant={'body2'}>{formatDate(props.publishedAt)}</Typography>
       </TimelineOppositeContent>
       <TimelineSeparator>
