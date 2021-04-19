@@ -20,14 +20,15 @@ export interface IProps {
   authorUrl: string;
   createdAt: string;
   description?: string;
+  favoriteReleases: any[];
   id: number;
   isDraft: boolean;
-  isFavorite?: boolean;
   isPrerelease: boolean;
   name: string;
   onClose: () => void;
   publishedAt: string;
   releasesMarkedSeen: number[];
+  removeFromFavorites: () => void;
   tagName: string;
 }
 
@@ -36,6 +37,9 @@ export const ReleaseDetails = (props: IProps) => {
   const isDraft = props.isDraft ? 'Yes' : 'No';
   const isPrerelease = props.isPrerelease ? 'Yes' : 'No';
   const releaseName = props.name ? props.name : props.tagName;
+  const isFavorite = props.favoriteReleases.find(
+    (favoriteRelease) => favoriteRelease.id === props.id
+  );
 
   return (
     <React.Fragment>
@@ -72,9 +76,16 @@ export const ReleaseDetails = (props: IProps) => {
           </Box>
         </DialogContent>
         <DialogActions>
-          <IconButton onClick={props.addToFavorites} color="primary">
-            {props.isFavorite ? <Favorite /> : <FavoriteBorder />}
-          </IconButton>
+          {isFavorite && (
+            <IconButton onClick={props.removeFromFavorites} color="secondary">
+              {<Favorite />}
+            </IconButton>
+          )}
+          {!isFavorite && (
+            <IconButton onClick={props.addToFavorites} color="secondary">
+              {<FavoriteBorder />}
+            </IconButton>
+          )}
         </DialogActions>
       </Dialog>
     </React.Fragment>
@@ -92,10 +103,10 @@ ReleaseDetails.propTypes = {
   name: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   publishedAt: PropTypes.string.isRequired,
+  removeFromFavorites: PropTypes.func.isRequired,
   tagName: PropTypes.string.isRequired,
 };
 
 ReleaseDetails.defaultProps = {
   description: '',
-  isFavorite: false,
 };

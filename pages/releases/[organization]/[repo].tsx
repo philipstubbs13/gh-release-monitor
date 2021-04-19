@@ -27,7 +27,15 @@ export const getStaticPaths = async () => {
 };
 
 const Repo = (props: IPageProps) => {
-  let { state, getReleases, markSeen, getSeenReleases } = useAppContext();
+  let {
+    state,
+    getReleases,
+    markSeen,
+    getSeenReleases,
+    addToFavorites,
+    removeFromFavorites,
+    getFavoriteReleases,
+  } = useAppContext();
   const router = useRouter();
   const { organization, repo } = router.query;
   const [selectedRelease, setSelectedRelease] = useState(null);
@@ -38,6 +46,7 @@ const Repo = (props: IPageProps) => {
 
     await getReleases(organization, repo);
     await getSeenReleases();
+    await getFavoriteReleases();
   }, []);
 
   const getReleaseById = (id: number) => {
@@ -79,11 +88,12 @@ const Repo = (props: IPageProps) => {
           </Grid>
           {selectedRelease && (
             <ReleaseDetails
-              addToFavorites={() => {}}
+              addToFavorites={() => addToFavorites(selectedRelease)}
               author={selectedRelease.author.login}
               authorUrl={selectedRelease.author.html_url}
               createdAt={selectedRelease.created_at}
               description={selectedRelease.description}
+              favoriteReleases={state.favoriteReleases}
               id={selectedRelease.id}
               isDraft={selectedRelease.draft}
               isPrerelease={selectedRelease.prerelease}
@@ -91,6 +101,7 @@ const Repo = (props: IPageProps) => {
               onClose={() => setSelectedRelease(null)}
               publishedAt={selectedRelease.published_at}
               releasesMarkedSeen={state.releasesMarkedSeen}
+              removeFromFavorites={() => removeFromFavorites(selectedRelease.id)}
               tagName={selectedRelease.tag_name}
             />
           )}

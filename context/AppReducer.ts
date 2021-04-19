@@ -57,6 +57,24 @@ const AppReducer = (state: IAppState, action): IAppState => {
         recentSearches: action.payload,
       };
     }
+    case Actions.AddToFavorites: {
+      return {
+        ...state,
+        favoriteReleases: action.payload,
+      };
+    }
+    case Actions.RemoveFromFavorites: {
+      return {
+        ...state,
+        favoriteReleases: action.payload,
+      };
+    }
+    case Actions.GetFavoriteReleases: {
+      return {
+        ...state,
+        favoriteReleases: action.payload,
+      };
+    }
     default:
       return state;
   }

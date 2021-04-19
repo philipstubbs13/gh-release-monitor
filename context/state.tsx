@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 // eslint-disable-next-line react/prop-types
 export function AppWrapper({ children }) {
   const initialState: IAppState = {
+    favoriteReleases: [],
     getReposForOrganizationError: '',
     isLoadingReleases: true,
     recentSearches: [],
@@ -100,6 +101,74 @@ export function AppWrapper({ children }) {
         })
     );
   }
+
+  function addToFavorites(release: any) {
+    favoriteReleasesDB().then((db) =>
+      db
+        .transaction(DatabaseStoreNames.FavoriteReleases, 'readwrite')
+        .objectStore(DatabaseStoreNames.FavoriteReleases)
+        .put({
+          favoriteReleases: [...state.favoriteReleases, release],
+          id: release.id,
+        })
+        .then(() => {
+          dispatch({
+            type: Actions.AddToFavorites,
+            payload: [...state.favoriteReleases, release],
+          });
+        })
+    );
+  }
+
+  function removeFromFavorites(id: number) {
+    const filteredReleases = state.favoriteReleases.filter(
+      (favoriteRelease) => favoriteRelease.id !== id
+    );
+
+    favoriteReleasesDB().then((db) =>
+      db
+        .transaction(DatabaseStoreNames.FavoriteReleases, 'readwrite')
+        .objectStore(DatabaseStoreNames.FavoriteReleases)
+        .put({
+          favoriteReleases: filteredReleases,
+          id,
+        })
+        .then(() => {
+          dispatch({
+            type: Actions.RemoveFromFavorites,
+            payload: filteredReleases,
+          });
+        })
+    );
+  }
+
+  const getFavoriteReleases = () => {
+    favoriteReleasesDB()
+      .then((db) =>
+        db
+          .transaction(DatabaseStoreNames.FavoriteReleases)
+          .objectStore(DatabaseStoreNames.FavoriteReleases)
+          .getAll()
+      )
+      .then((obj) => {
+        if (obj.length === 0) {
+          favoriteReleasesDB()
+            .then((db) => {
+              const tx = db.transaction(DatabaseStoreNames.FavoriteReleases, 'readwrite');
+              tx.objectStore(DatabaseStoreNames.FavoriteReleases).put({
+                favoriteReleases: [],
+                id: uuidv4(),
+              });
+            })
+            .catch((error) => console.log(error));
+        } else {
+          dispatch({
+            type: Actions.GetFavoriteReleases,
+            payload: obj[0].favoriteReleases,
+          });
+        }
+      });
+  };
 
   function setSearchTerm(newValue: string | null) {
     dispatch({
@@ -198,6 +267,14 @@ export function AppWrapper({ children }) {
       }
     });
 
+  const favoriteReleasesDB = () =>
+    idb.open(DatabaseStoreNames.FavoriteReleases, 1, (upgradeDb) => {
+      switch (upgradeDb.oldVersion) {
+        case 0:
+          upgradeDb.createObjectStore(DatabaseStoreNames.FavoriteReleases, { keyPath: 'id' });
+      }
+    });
+
   return (
     <AppContext.Provider
       value={{
@@ -209,6 +286,9 @@ export function AppWrapper({ children }) {
         getSeenReleases,
         getRecentSearches,
         clearSearchHistory,
+        addToFavorites,
+        removeFromFavorites,
+        getFavoriteReleases,
       }}>
       {children}
     </AppContext.Provider>
