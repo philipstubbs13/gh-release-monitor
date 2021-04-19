@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import PropTypes from 'prop-types';
 import {
   Dialog,
@@ -15,7 +16,11 @@ import React from 'react';
 import { Close, Favorite, FavoriteBorder, Check } from '@material-ui/icons';
 
 export interface IProps {
-  addToFavorites: () => void;
+  addToFavorites: (
+    selectedRelease: any,
+    organization: string | string[],
+    repo: string | string[]
+  ) => void;
   author: string;
   authorUrl: string;
   createdAt: string;
@@ -53,7 +58,7 @@ export const ReleaseDetails = (props: IProps) => {
           id={'customized-dialog-title'}
           onClose={props.onClose}
           className={classes.dialogTitle}>
-          Release: {releaseName}
+          <Typography noWrap={true}>Release: {releaseName}</Typography>
           <IconButton aria-label={'close'} className={classes.closeButton} onClick={props.onClose}>
             <Close />
           </IconButton>

@@ -88,7 +88,7 @@ const Repo = (props: IPageProps) => {
           </Grid>
           {selectedRelease && (
             <ReleaseDetails
-              addToFavorites={() => addToFavorites(selectedRelease)}
+              addToFavorites={() => addToFavorites(selectedRelease, organization, repo)}
               author={selectedRelease.author.login}
               authorUrl={selectedRelease.author.html_url}
               createdAt={selectedRelease.created_at}

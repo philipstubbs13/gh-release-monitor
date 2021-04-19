@@ -12,7 +12,7 @@ export interface IAppState {
 }
 
 export interface IAppContext {
-  addToFavorites: (release: any) => void;
+  addToFavorites: (release: any, organization: string | string[], repo: string | string[]) => void;
   clearSearchHistory: () => void;
   getFavoriteReleases: () => void;
   getRecentSearches: () => void;

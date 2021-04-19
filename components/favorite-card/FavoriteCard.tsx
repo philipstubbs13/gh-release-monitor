@@ -8,10 +8,19 @@ import {
   Divider,
   Button,
   CardActions,
+  Typography,
+  makeStyles,
+  Theme,
 } from '@material-ui/core';
 import { DeleteOutlined } from '@material-ui/icons';
 import { ReleaseDetailsItem } from '@components/release-details-item/ReleaseDetailsItem';
 import { formatDate } from '../../utils/date.utils';
+
+export const useStyles = makeStyles((theme: Theme) => {
+  return {
+    header: { fontSize: 12, color: theme.palette.text.primary },
+  };
+});
 
 export interface IProps {
   author: string;
@@ -20,8 +29,10 @@ export interface IProps {
   isDraft: boolean;
   isPrerelease: boolean;
   name: string;
+  organization: string;
   publishedAt: string;
   releaseUrl: string;
+  repo: string;
   removeFromFavorites: () => void;
   tagName: string;
 }
@@ -30,6 +41,7 @@ export const FavoriteCard = (props: IProps) => {
   const releaseName = props.name ? props.name : props.tagName;
   const isDraft = props.isDraft ? 'Yes' : 'No';
   const isPrerelease = props.isPrerelease ? 'Yes' : 'No';
+  const classes = useStyles();
 
   return (
     <Card elevation={1}>
@@ -37,10 +49,19 @@ export const FavoriteCard = (props: IProps) => {
         avatar={<Avatar src={props.authorAvatarUrl} alt={props.author} />}
         action={
           <IconButton onClick={props.removeFromFavorites}>
-            <DeleteOutlined />
+            <DeleteOutlined color={'secondary'} />
           </IconButton>
         }
-        title={releaseName}
+        title={
+          <Typography color="primary" noWrap className={classes.header}>
+            {releaseName}
+          </Typography>
+        }
+        subheader={
+          <Typography color="primary" className={classes.header}>
+            {props.organization}/{props.repo}
+          </Typography>
+        }
       />
       <Divider />
       <CardContent>
@@ -66,8 +87,10 @@ FavoriteCard.propTypes = {
   isDraft: PropTypes.bool.isRequired,
   isPrerelease: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
+  organization: PropTypes.string.isRequired,
   publishedAt: PropTypes.string.isRequired,
   releaseUrl: PropTypes.string.isRequired,
   removeFromFavorites: PropTypes.func.isRequired,
+  repo: PropTypes.string.isRequired,
   tagName: PropTypes.string.isRequired,
 };

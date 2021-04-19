@@ -101,19 +101,20 @@ export function AppWrapper({ children }) {
     );
   }
 
-  function addToFavorites(release: any) {
+  function addToFavorites(release: any, organization: string | string[], repo: string | string[]) {
+    const releaseToFavorite = { ...release, organization, repo };
     favoriteReleasesDB().then((db) =>
       db
         .transaction(DatabaseStoreNames.FavoriteReleases, 'readwrite')
         .objectStore(DatabaseStoreNames.FavoriteReleases)
         .put({
-          favoriteReleases: [...state.favoriteReleases, release],
+          favoriteReleases: [...state.favoriteReleases, releaseToFavorite],
           id: DATABASE_STORE_ID,
         })
         .then(() => {
           dispatch({
             type: Actions.AddToFavorites,
-            payload: [...state.favoriteReleases, release],
+            payload: [...state.favoriteReleases, releaseToFavorite],
           });
         })
     );

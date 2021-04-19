@@ -14,10 +14,26 @@ import {
   DialogActions,
   DialogContent,
   Button,
+  makeStyles,
+  Theme,
 } from '@material-ui/core';
 import { FavoriteCard } from '@components/favorite-card/FavoriteCard';
 
+const useStyles = makeStyles((theme: Theme) => {
+  return {
+    dialogTitle: {
+      backgroundColor: theme.palette.primary.dark,
+      color: theme.palette.background.default,
+    },
+    dialogContent: {
+      paddingTop: theme.spacing(3),
+      paddingBottom: theme.spacing(3),
+    },
+  };
+});
+
 const Favorites = (props: IPageProps) => {
+  const classes = useStyles();
   let { getFavoriteReleases, state, removeFromFavorites } = useAppContext();
   const [releaseIdToRemove, setReleaseIdToRemove] = useState(null);
 
@@ -65,8 +81,10 @@ const Favorites = (props: IPageProps) => {
                     isDraft={favoriteRelease.draft}
                     isPrerelease={favoriteRelease.prerelease}
                     name={favoriteRelease.name}
+                    organization={favoriteRelease.organization}
                     publishedAt={favoriteRelease.published_at}
                     releaseUrl={favoriteRelease.html_url}
+                    repo={favoriteRelease.repo}
                     removeFromFavorites={() => setReleaseIdToRemove(favoriteRelease.id)}
                     tagName={favoriteRelease.tag_name}
                   />
@@ -81,17 +99,21 @@ const Favorites = (props: IPageProps) => {
             aria-labelledby="confirmation-dialog-title"
             open={Boolean(releaseIdToRemove)}
             onClose={() => setReleaseIdToRemove(null)}>
-            <DialogTitle id="confirmation-dialog-title">
-              Are you sure you want to remove from your favorites?
+            <DialogTitle className={classes.dialogTitle}>
+              <Typography variant={'subtitle1'}>
+                Are you sure you want to remove from favorites?
+              </Typography>
             </DialogTitle>
-            <DialogContent>
-              Click <b>REMOVE</b> to remove this release from this page.
+            <DialogContent className={classes.dialogContent}>
+              <Typography variant={'body1'}>
+                Click <b>REMOVE</b> to remove this release from favorites.
+              </Typography>
             </DialogContent>
             <DialogActions>
               <Button onClick={() => setReleaseIdToRemove(null)} color="primary">
                 Cancel
               </Button>
-              <Button onClick={() => onRemoveFromFavorites(releaseIdToRemove)} color="primary">
+              <Button onClick={() => onRemoveFromFavorites(releaseIdToRemove)} color="secondary">
                 Remove
               </Button>
             </DialogActions>

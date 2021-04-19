@@ -21,13 +21,13 @@ export const SearchOrganizationForm = (props: IProps) => {
   return (
     <React.Fragment>
       <Typography variant={'subtitle1'}>
-        To start tracking releases, enter name of the organization you want to track as the name
+        To start tracking releases, enter the name of the organization you want to track as the name
         appears on GitHub.
       </Typography>
       <Typography variant={'subtitle1'}>
-        The app automatically saves GitHub repos you search for so that you can quickly access them
-        at a later time. To clear your recent organization searches from the autocomplete dropdown,
-        click <b>CLEAR SEARCH HISTORY</b>.
+        The app automatically saves GitHub repositories you search for so that you can quickly
+        access them at a later time. To clear your recent organization searches from the
+        autocomplete dropdown, click <b>CLEAR SEARCH HISTORY</b>.
       </Typography>
       <Box display={'flex'} marginTop={3}>
         <Button
